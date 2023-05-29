@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    .top-row {
+      font-size: 14px;
+    }
+
+    .logo-container img {
+      width: 100px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 93vh;
+      background-color: #6c93e6;
+    }
+
+    .top-row {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #33691e;
+      padding: 10px;
+      color: white;
+    }
+
+    .content-row {
+      flex: 1;
+      display: flex;
+    }
+
+    .left-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #c8e6c9;
+      padding: 10px;
+      width: 100%;
+    }
+
+    .button-container {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 290px;
+      background-color: #668fda;
+      cursor: pointer;
+    }
+
+    .button-large {
+      width: 150px;
+      height: 100px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .counter {
+      font-size: 8px;
+      margin-top: 10px;
+      font-weight: normal;
+      font-size: xx-large;
+    }
+
+    .button-container .timer-button {
+      width: 50%;
+      height: 100%;
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: xx-large;
+    }
+
+    .button-container.running {
+      background-color: rgb(255, 67, 67);
+      color: white;
+    }
+
+    .button-container.stopped {
+      background-color: green;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-row">
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="Logo de la empresa" class="logo">
+      </div>
+    </div>
+    <div class="content-row">
+      <div class="left-column">
+        <div class="button-container" (click)="startTimer1()" [ngClass]="{'running': timersRunning[0], 'stopped': !timersRunning[0]}">
+          <div class="timer-button">
+            {{ getButton1Label() }}
+            <p class="counter">Lapsus Detenido: {{ getElapsedTimeTotalFormatted(0) }}</p>           
+            <p>Tiempo Total Detenido: {{ getElapsedTimeTotalAccumulated1() }}</p>          
+          </div>
+        </div>
+        <div class="button-container" (click)="startTimer2()" [ngClass]="{'running': timersRunning[1], 'stopped': !timersRunning[1]}">
+          <div class="timer-button">
+            {{ getButton2Label() }}
+            <p class="counter">Lapsus sin Madera: {{ getElapsedTimeTotalFormatted(1) }}</p>         
+            <p>Tiempo Total sin Madera: {{ getElapsedTimeTotalAccumulated2() }}</p> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
