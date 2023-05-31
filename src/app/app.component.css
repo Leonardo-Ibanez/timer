@@ -29,7 +29,9 @@ body {
   height: auto;
   object-fit: contain;
 }
-
+.current-time {
+  margin-left: 10px; /* Ajusta el margen izquierdo según tu preferencia */
+}
 .button-container {
   margin-bottom: 15px;
   display: flex;

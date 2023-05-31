@@ -69,3 +69,20 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
   }, { passive: false });
 });
+
+
+// Obtener el elemento del span por su id
+const currentDateTimeElement = document.getElementById('currentDateTime');
+
+// Función para obtener la hora actual y actualizar el contenido del span
+function updateCurrentDateTime() {
+  const currentDate = new Date();
+  const currentDateTime = currentDate.toLocaleTimeString();
+  currentDateTimeElement.textContent = currentDateTime;
+}
+
+// Llamar a la función inicialmente para mostrar la hora actual
+updateCurrentDateTime();
+
+// Actualizar la hora actual cada segundo
+setInterval(updateCurrentDateTime, 1000);
