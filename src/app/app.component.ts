@@ -27,139 +27,212 @@ export class AppComponent implements OnInit, OnDestroy {
   tiempoTotalDetenido: number = 0;
   tiempoTotalSinMadera: number = 0;
 
+  currentDateTime: string = '';
+
+  showClock: boolean = false; 
+
+
+/*
   startTimer1(): void {
     if (!this.timersRunning[0]) {
-      const currentTime = Date.now();
-      this.startTime[0] = currentTime;
+      this.buttonStartTimes[0] = Date.now();
       this.timersRunning[0] = true;
-
-      if (this.fechainicio1number === null || this.tiempoTotalDetenido === 0) {
-        this.fechainicio1 = new Date(currentTime).toLocaleString();
-        this.fechainicio1number = currentTime;
-      }
-
-      this.elapsedTime[0] = 0; // Reiniciar el tiempo transcurrido
-
-      // Guardar el valor de tiempo de inicio
-      this.buttonStartTimes[0] = currentTime;
-
-      // Iniciar el intervalo para actualizar el tiempo transcurrido
+      
+  
       this.intervalIds[0] = setInterval(() => {
-        this.elapsedTime[0] = Date.now() - this.startTime[0];
+        this.elapsedTime[0] = Date.now() - this.buttonStartTimes[0];
       }, 1000); // Actualizar cada segundo
-
-      console.log("fechainicio1:", this.fechainicio1);
-      console.log("fechainicio1number:", this.fechainicio1number);
+  
     } else {
       this.stopTimer1();
     }
-  }
+  
+    this.buttonStopTimes[0] = Date.now();
+    this.fechafin1 = new Date().toLocaleString();
+    this.fechafin1number = Date.now();
 
-  startTimer2(): void {
-    if (!this.timersRunning[1]) {
-      const currentTime = Date.now();
-      this.startTime[1] = currentTime;
-      this.timersRunning[1] = true;
+    // Reiniciar el tiempo transcurrido
+    this.elapsedTime[0] = 0;
+ 
+  }  
   
-      if (this.fechainicio2number === null || this.tiempoTotalSinMadera === 0) {
-        this.fechainicio2 = new Date(currentTime).toLocaleString();
-        this.fechainicio2number = currentTime;
-      }
-  
-      this.elapsedTime[1] = 0; // Reiniciar el tiempo transcurrido
-  
-      // Guardar el valor de tiempo de inicio
-      this.buttonStartTimes[1] = currentTime;
-  
-      // Iniciar el intervalo para actualizar el tiempo transcurrido
-      this.intervalIds[1] = setInterval(() => {
-        this.elapsedTime[1] = Date.now() - this.startTime[1];
-      }, 1000); // Actualizar cada segundo
-  
-      console.log("fechainicio2:", this.fechainicio2);
-      console.log("fechainicio2number:", this.fechainicio2number);
-    } else {
-      this.stopTimer2();
-    }
-  }
-
-  stopTimer1(): void {
+    stopTimer1(): void {
     if (this.timersRunning[0]) {
       this.timersRunning[0] = false;
-      clearInterval(this.intervalIds[0]);
-  
+      
+
       // Guardar el valor de tiempo de detención
       this.buttonStopTimes[0] = Date.now();
       this.fechafin1 = new Date().toLocaleString();
       this.fechafin1number = Date.now();
-  
+
       console.log("fechafin1:", this.fechafin1);
       console.log("fechafin1number:", this.fechafin1number);
-  
-      // Calcular y mostrar el tiempo total detenido
-      const elapsedTime = this.fechafin1number - this.fechainicio1number!;
-      this.tiempoTotalDetenido = elapsedTime; // Set the counter to the elapsed time
-      console.log('Tiempo Total Detenido:', this.formatTime(this.tiempoTotalDetenido));
+
+      // Reiniciar el tiempo transcurrido
+      this.elapsedTime[0] = 0;
+      clearInterval(this.intervalIds[0]);
     }
   }
+    getElapsedTime1(): string {
+    const elapsedSeconds = Math.floor(this.elapsedTime[0] / 1000);
+    const seconds = elapsedSeconds % 60;
+    const minutes = Math.floor(elapsedSeconds / 60) % 60;
+    const hours = Math.floor(elapsedSeconds / 3600);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+*/
+startTimer1(): void {
+  if (!this.timersRunning[0]) {
+    const currentDate = new Date();
+    this.fechainicio1 = currentDate.toLocaleString(); // Guardar la fecha y hora actual
+    this.buttonStartTimes[0] = currentDate.getTime(); // Guardar el tiempo actual en milisegundos
+    this.timersRunning[0] = true;
+
+    // Mostrar el reloj 1 al hacer el primer click
+    if (!this.showClock) {
+      this.showClock = true;
+      this.updateClock();
+    }
+
+    // Actualizar la hora actual en tiempo real
+    this.intervalIds[0] = setInterval(() => {
+      this.updateClock();
+    }, 1000); // Actualizar cada segundo
+  } else {
+    this.stopTimer1();
+  }
+}
+
+
+updateClock(): void {
+  const currentDate = new Date();
+  this.currentDateTime = currentDate.toLocaleTimeString();
+}
+
+hora1now(): string {
+  if (!this.timersRunning[0] && this.showClock) {
+    const currentDate = new Date(this.buttonStartTimes[0]);
+    return currentDate.toLocaleTimeString();
+  } else {
+    return '';
+  }
+}
+
+
+stopTimer1(): void {
+  if (this.timersRunning[0]) {
+    this.timersRunning[0] = false;
+
+    // Guardar el valor de tiempo de detención
+    this.buttonStopTimes[0] = Date.now();
+    this.fechafin1 = new Date().toLocaleString();
+    this.fechafin1number = Date.now();
+
+    console.log("fechafin1:", this.fechafin1);
+    console.log("fechafin1number:", this.fechafin1number);
+
+    // Reiniciar el tiempo transcurrido
+    this.elapsedTime[0] = 0;
+    clearInterval(this.intervalIds[0]);
+
+    // Restablecer la hora actual a un valor vacío
+    this.currentDateTime = '';
+  }
+}
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+  startTimer2(): void {
+    if (!this.timersRunning[1]) {
+      this.buttonStartTimes[1] = Date.now();
+      this.timersRunning[1] = true;
   
+      this.intervalIds[1] = setInterval(() => {
+        this.elapsedTime[1] = Date.now() - this.buttonStartTimes[1];
+      }, 1000); // Actualizar cada segundo
+    } else {
+      this.stopTimer2();
+    }
+    this.buttonStopTimes[1] = Date.now();
+    this.fechafin1 = new Date().toLocaleString();
+    this.fechafin1number = Date.now();
+
+    // Reiniciar el tiempo transcurrido
+    this.elapsedTime[1] = 0;
+  
+  }
+
   stopTimer2(): void {
     if (this.timersRunning[1]) {
       this.timersRunning[1] = false;
       clearInterval(this.intervalIds[1]);
-  
+
       // Guardar el valor de tiempo de detención
       this.buttonStopTimes[1] = Date.now();
       this.fechafin2 = new Date().toLocaleString();
       this.fechafin2number = Date.now();
-  
+
       console.log("fechafin2:", this.fechafin2);
       console.log("fechafin2number:", this.fechafin2number);
-  
-      // Calcular y mostrar el tiempo total sin madera
-      const elapsedTime = this.fechafin2number - this.fechainicio2number!;
-      this.tiempoTotalSinMadera = elapsedTime; // Set the counter to the elapsed time
-      console.log('Tiempo Total Sin Madera:', this.formatTime(this.tiempoTotalSinMadera));
+
+      // Reiniciar el tiempo transcurrido
+      this.elapsedTime[1] = 0;
     }
   }
   
 
-  getElapsedTimeTotalAccumulated1(): string {
-    if (this.fechainicio1number && this.fechafin1number) {
-      const elapsedMilliseconds = this.fechafin1number - this.fechainicio1number;
-      const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
-      const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-      const elapsedSecondsRemaining = elapsedSeconds % 60;
-
-      const elapsedTime = `${elapsedMinutes.toString().padStart(2, '0')}:${elapsedSecondsRemaining.toString().padStart(2, '0')}`;
-      console.log(`Elapsed Time Accumulated 1: ${elapsedTime}`);
-
-
-      console.log('Tiempo Total Detenido:', this.formatTime(this.tiempoTotalDetenido));
-
-      return elapsedTime;
-    }
-
-    return '00:00';
+  getElapsedTime1(): string {
+    const elapsedSeconds = Math.floor(this.elapsedTime[0] / 1000);
+    const seconds = elapsedSeconds % 60;
+    const minutes = Math.floor(elapsedSeconds / 60) % 60;
+    const hours = Math.floor(elapsedSeconds / 3600);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
-  getElapsedTimeTotalAccumulated2(): string {
-    if (this.fechainicio2number && this.fechafin2number) {
-      const elapsedMilliseconds = this.fechafin2number - this.fechainicio2number;
-      const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
-      const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-      const elapsedSecondsRemaining = elapsedSeconds % 60;
-
-      const elapsedTime = `${elapsedMinutes.toString().padStart(2, '0')}:${elapsedSecondsRemaining.toString().padStart(2, '0')}`;
-      console.log(`Elapsed Time Accumulated 2: ${elapsedTime}`);
 
 
-      console.log('Tiempo Total Sin Madera:', this.formatTime(this.tiempoTotalSinMadera));
+  getElapsedTime2(): string {
+    const elapsedSeconds = Math.floor(this.elapsedTime[1] / 1000);
+    const seconds = elapsedSeconds % 60;
+    const minutes = Math.floor(elapsedSeconds / 60) % 60;
+    const hours = Math.floor(elapsedSeconds / 3600);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
 
-      return elapsedTime;
+getElapsedTimeDifference(timerIndex: number): string {
+  const start = this.buttonStartTimes[timerIndex];
+  const stop = this.buttonStopTimes[timerIndex];
+
+  if (start && stop) {
+    let elapsedMilliseconds = Math.abs(stop - start);
+
+    // Si el temporizador aún está en ejecución, agrega el tiempo transcurrido desde el inicio hasta el momento actual
+    if (this.timersRunning[timerIndex]) {
+      elapsedMilliseconds += Date.now() - start;
     }
 
-    return '00:00';
+    // Convierte los milisegundos a una cadena de tiempo en formato HH:MM:SS
+    const hours = Math.floor(elapsedMilliseconds / 3600000);
+    const minutes = Math.floor((elapsedMilliseconds % 3600000) / 60000);
+    const seconds = Math.floor((elapsedMilliseconds % 60000) / 1000);
+
+    const formattedTime = `${this.padZero(hours)}:${this.padZero(minutes)}:${this.padZero(seconds)}`;
+    return formattedTime;
+  }
+
+  return '';
+}
+
+  
+  
+  padZero(num: number): string {
+    return num.toString().padStart(2, '0');
+  }
+  
+  
+
+  clearIntervals(): void {
+    this.intervalIds.forEach(intervalId => clearInterval(intervalId));
   }
 
   getButton1Label(): string {
@@ -170,35 +243,9 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.timersRunning[1] ? 'Recarga de Madera' : 'Línea sin Madera';
   }
 
-  clearIntervals(): void {
-    this.intervalIds.forEach(intervalId => clearInterval(intervalId));
-  }
-
-  getElapsedTimeTotalFormatted(timerIndex: number): string {
-    const totalSeconds = Math.floor(this.elapsedTime[timerIndex] / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  }
-
-  formatTime(time: number): string {
-    const seconds = Math.floor((time / 1000) % 60);
-    const minutes = Math.floor((time / (1000 * 60)) % 60);
-    const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
-
-    return `${this.padNumber(hours)}:${this.padNumber(minutes)}:${this.padNumber(seconds)}`;
-  }
-
-  padNumber(num: number): string {
-    return num.toString().padStart(2, '0');
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.clearIntervals();
   }
-
-
 }

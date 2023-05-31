@@ -107,15 +107,16 @@
         <div class="button-container" (click)="startTimer1()" [ngClass]="{'running': timersRunning[0], 'stopped': !timersRunning[0]}">
           <div class="timer-button">
             {{ getButton1Label() }}
-            <p class="counter">Lapsus Detenido: {{ getElapsedTimeTotalFormatted(0) }}</p>           
-            <p>Tiempo Total Detenido: {{ getElapsedTimeTotalAccumulated1() }}</p>          
+            <div class="hora detención">Hora 1: {{ fechainicio1 }}</div>  <!-- Mostrar el valor de fechainicio1 -->
+            <div class="hora actual">Hora 2: {{ currentDateTime }}</div>
+            <p>Tiempo Total Detenido: {{ getElapsedTimeDifference(0) }}</p>
           </div>
         </div>
         <div class="button-container" (click)="startTimer2()" [ngClass]="{'running': timersRunning[1], 'stopped': !timersRunning[1]}">
           <div class="timer-button">
             {{ getButton2Label() }}
-            <p class="counter">Lapsus sin Madera: {{ getElapsedTimeTotalFormatted(1) }}</p>         
-            <p>Tiempo Total sin Madera: {{ getElapsedTimeTotalAccumulated2() }}</p> 
+            <p class="counter">Lapsus sin Madera: {{ getElapsedTime2() }}</p>         
+            <p>Tiempo Total sin Madera: {{ getElapsedTimeDifference(1) }}</p> 
           </div>
         </div>
       </div>
