@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   fechafin2: string | null = null;
   fechainicio1number: number | null = null;
   fechafin1number: number | null = null;
+  
   fechainicio2number: number | null = null;
   fechafin2number: number | null = null;
 
@@ -31,34 +32,41 @@ export class AppComponent implements OnInit, OnDestroy {
 
   showClock: boolean = false;
 
-  constructor(private ngZone: NgZone) {}
+  value: string = ''; // Agregar un valor inicial aquí
+  cdr: ChangeDetectorRef;
+
+  constructor(private ngZone: NgZone, cdr: ChangeDetectorRef) {
+    this.cdr = cdr;
+  }
 
   startTimer1(): void {
     if (!this.timersRunning[0]) {
       const currentDate = new Date();
-      this.fechainicio1 = currentDate.toLocaleString(); // Guardar la fecha y hora actual
-      this.buttonStartTimes[0] = currentDate.getTime(); // Guardar el tiempo actual en milisegundos
-      
-      // Reiniciar el valor de fechafin1 si existe
+      this.fechainicio1 = currentDate.toLocaleString();
+      this.buttonStartTimes[0] = currentDate.getTime();
+  
       if (this.fechafin1) {
         this.fechafin1 = '';
       }
-
+  
       this.timersRunning[0] = true;
-
+  
       console.log("fechainicio1:", this.fechainicio1);
       console.log("fechainicio1number:", this.fechainicio1number);
-
-      // Mostrar el reloj al hacer el primer clic
+  
       if (!this.showClock) {
         this.showClock = true;
         this.updateClock();
       }
-
-      // Actualizar la hora actual en tiempo real
+  
       this.intervalIds[0] = setInterval(() => {
         this.updateClock();
-      }, 1000); // Actualizar cada segundo
+      }, 1000);
+  
+      this.value = 'Nuevo valor';
+      setTimeout(() => {
+        this.cdr.detectChanges();
+      });
     } else {
       this.stopTimer1();
     }
