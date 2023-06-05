@@ -98,31 +98,33 @@
 <body>
   <div class="container">
     <div class="top-row">
-      <div class="logo-container">
-        <img src="assets/logo.png" alt="Logo de la empresa" class="logo">    
+      <img src="assets/logo.png" alt="Logo de la empresa" class="logo">
+      <div class="clock">
+        {{ currentDateTime }}
       </div>
-      </div>
-      <div class="content-row">
-        <div class="left-column">
-          <div class="button-container" (click)="startTimer1()" [ngClass]="{'running': timer1.timerRunning, 'stopped': !timer1.timerRunning}">
-            <div class="timer-button">
-              {{ getButtonLabel(timer1) }}
-              <div class="hora detención">Hora de Detención: {{ timer1.fechainicio }}</div>
-              <div class="hora actual">Hora en que Reactiva: {{ timer1.fechafin }}</div>
-              <p>Tiempo Detenido: {{ getElapsedTimeDifference(timer1) }}</p>
-            </div>
+    </div>
+    <div class="content-row">
+      <div class="left-column">
+        <div class="button-container" (click)="toggleTimer('timer1')" [ngClass]="{'running': timers['timer1'].timerRunning, 'stopped': !timers['timer1'].timerRunning}">
+          <div class="timer-button">
+            {{ getButtonLabel(timers['timer1']) }}
+            <div class="hora detención">Hora de Detención: {{ timers['timer1'].fechainicio }}</div>
+            <div class="hora actual">Hora en que Reactiva: {{ timers['timer1'].fechafin }}</div>
+            <p>Tiempo Detenido: {{ getElapsedTimeDifference(timers['timer1']) }}</p>
           </div>
-          <div class="button-container" (click)="startTimer2()" [ngClass]="{'running': timer2.timerRunning, 'stopped': !timer2.timerRunning}">
-            <div class="timer-button">
-              {{ getButtonLabel(timer2) }}
-              <div class="hora inicio">Hora de Inicio: {{ timer2.fechainicio }}</div>
-              <div class="hora fin">Hora de Fin: {{ timer2.fechafin }}</div>
-              <p>Tiempo Total sin Madera: {{ getElapsedTimeDifference(timer2) }}</p>
-            </div>
+        </div>
+        <div class="button-container" (click)="toggleTimer('timer2')" [ngClass]="{'running': timers['timer2'].timerRunning, 'stopped': !timers['timer2'].timerRunning}">
+          <div class="timer-button">
+            {{ getButtonLabel(timers['timer2']) }}
+            <div class="hora inicio">Hora de Inicio: {{ timers['timer2'].fechainicio }}</div>
+            <div class="hora fin">Hora de Fin: {{ timers['timer2'].fechafin }}</div>
+            <p>Tiempo Total sin Madera: {{ getElapsedTimeDifference(timers['timer2']) }}</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  
     
 
 

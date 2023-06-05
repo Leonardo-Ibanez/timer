@@ -6,81 +6,58 @@ import { Component, NgZone, OnDestroy, OnInit, ChangeDetectorRef } from '@angula
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  timer1: Timer = {
-    timerRunning: false,
-    fechainicio: null,
-    fechafin: null
+  timers: { [key: string]: Timer } = {
+    timer1: {
+      timerRunning: false,
+      fechainicio: null,
+      fechafin: null
+    },
+    timer2: {
+      timerRunning: false,
+      fechainicio: null,
+      fechafin: null
+    }
   };
 
-  timer2: Timer = {
-    timerRunning: false,
-    fechainicio: null,
-    fechafin: null
-  };
-
-  intervalIds: number[] = [];
+  intervalIds: { [key: string]: number } = {};
   currentDateTime: string = '';
   showClock: boolean = false;
 
   constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) {}
 
-  startTimer1(): void {
-    if (!this.timer1.timerRunning) {
+  toggleTimer(timerName: string): void {
+    const timer = this.timers[timerName];
+  
+    if (!timer.timerRunning) {
       const currentDate = new Date();
-      this.timer1.fechainicio = currentDate.toLocaleString();
-      this.timer1.timerRunning = true;
-      
-
+      timer.fechainicio = currentDate.toLocaleString();
+      timer.fechafin = ''; // Reiniciar el valor de "hora en que reactiva"
+      timer.timerRunning = true;
+  
       if (!this.showClock) {
         this.showClock = true;
         this.updateClock();
       }
-
-      this.intervalIds[0] = setInterval(() => {
+  
+      this.intervalIds[timerName] = window.requestAnimationFrame(() => {
         this.updateClock();
-      }, 1000);
-
+      });
+  
       this.cdr.detectChanges();
     } else {
-      this.stopTimer1();
+      this.stopTimer(timerName);
     }
   }
+  
 
-  stopTimer1(): void {
-    if (this.timer1.timerRunning) {
-      this.timer1.timerRunning = false;
+  stopTimer(timerName: string): void {
+    const timer = this.timers[timerName];
+
+    if (timer.timerRunning) {
+      timer.timerRunning = false;
       const currentDate = new Date();
-      this.timer1.fechafin = currentDate.toLocaleString();
-      clearInterval(this.intervalIds[0]);
-      this.currentDateTime = '';
-    }
-  }
-
-  startTimer2(): void {
-    if (!this.timer2.timerRunning) {
-      const currentDate = new Date();
-      this.timer2.fechainicio = currentDate.toLocaleString();
-      this.timer2.timerRunning = true;
-
-      if (!this.showClock) {
-        this.showClock = true;
-        this.updateClock();
-      }
-
-      this.intervalIds[1] = setInterval(() => {
-        this.updateClock();
-      }, 1000);
-    } else {
-      this.stopTimer2();
-    }
-  }
-
-  stopTimer2(): void {
-    if (this.timer2.timerRunning) {
-      this.timer2.timerRunning = false;
-      const currentDate = new Date();
-      this.timer2.fechafin = currentDate.toLocaleString();
-      clearInterval(this.intervalIds[1]);
+      timer.fechafin = currentDate.toLocaleString();
+      window.cancelAnimationFrame(this.intervalIds[timerName]);
       this.currentDateTime = '';
     }
   }
@@ -89,6 +66,9 @@ export class AppComponent implements OnInit, OnDestroy {
     const currentDate = new Date();
     this.ngZone.run(() => {
       this.currentDateTime = currentDate.toLocaleTimeString();
+      this.intervalIds['clock'] = window.requestAnimationFrame(() => {
+        this.updateClock();
+      });
     });
   }
 
@@ -122,11 +102,13 @@ export class AppComponent implements OnInit, OnDestroy {
     return value.toString().padStart(2, '0');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateClock();
+  }
 
   ngOnDestroy(): void {
-    this.intervalIds.forEach((intervalId) => {
-      clearInterval(intervalId);
+    Object.values(this.intervalIds).forEach((intervalId) => {
+      window.cancelAnimationFrame(intervalId);
     });
   }
 }

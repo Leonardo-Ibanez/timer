@@ -75,3 +75,18 @@ body {
 .timer-text {
   text-align: center;
 }
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 100px; /* Ajusta el ancho según tus necesidades */
+  height: auto;
+  margin-right: 10px; /* Ajusta el margen según tus necesidades */
+}
+
+.clock {
+  font-size: 18px; /* Ajusta el tamaño de fuente según tus necesidades */
+}
