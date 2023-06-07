@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }, { passive: false });
 });
 
-
 // Obtener el elemento del span por su id
 const currentDateTimeElement = document.getElementById('currentDateTime');
 
@@ -86,3 +85,18 @@ updateCurrentDateTime();
 
 // Actualizar la hora actual cada segundo
 setInterval(updateCurrentDateTime, 1000);
+
+// Variables para los contadores
+let contadorBiotrenGlobulus = 0;
+let contadorBiotrenMitens = 0;
+let contadorCamionExternoGlobulus = 0;
+let contadorCamionExternoMitens = 0;
+
+// Funciones para aumentar y disminuir la cantidad en uno
+function aumentarContador(variable) {
+  return variable + 1;
+}
+
+function disminuirContador(variable) {
+  return variable - 1;
+}

@@ -18,6 +18,199 @@
     .container {
       display: flex;
       flex-direction: column;
+      height: 100vh;
+      background-color: #6c93e6;
+    }
+
+    .top-row {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #33691e;
+      padding: 10px;
+      color: white;
+    }
+
+    .content-row {
+      flex: 1;
+      display: flex;
+    }
+
+    .left-column,
+    .middle-column,
+    .right-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #c8e6c9;
+      padding: 10px;
+    }
+
+    .button-container {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 50%;
+      cursor: pointer;
+    }
+
+    .timer-button {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      font-size: xx-large;
+    }
+
+    .button-inactive {
+      background-color: #ccc; /* Cambia este valor al color para el estado inactivo */
+      color: #000; /* Cambia este valor al color del texto para el estado inactivo */
+    }
+
+    .button-active {
+      background-color: #ff0000; /* Cambia este valor al color para el estado activo */
+      color: #fff; /* Cambia este valor al color del texto para el estado activo */
+    }
+
+    .button-large {
+      width: 150px;
+      height: 100px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .counter {
+      font-size: 8px;
+      margin-top: 10px;
+      font-weight: normal;
+      font-size: large;
+    }
+
+    .button-container.running {
+      background-color: rgb(255, 67, 67);
+      color: white;
+    }
+
+    .button-container.stopped {
+      background-color: green;
+      color: white;
+    }
+
+    .right-column .button-container {
+      margin-bottom: 15px;
+    }
+
+    .right-column .timer-button,
+    .middle-column .timer-button {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>  
+<body>
+  <div class="container">
+    <div class="top-row">
+      <img src="assets/logo.png" alt="Logo de la empresa" class="logo">
+      <div class="clock">
+        {{ currentDateTime }}
+      </div>
+    </div>
+    <div class="content-row">
+      <div class="left-column" style="flex: 2;">
+        <div class="button-container" (click)="toggleTimer('timer1')" [ngClass]="{'running': timers['timer1'].timerRunning, 'stopped': !timers['timer1'].timerRunning}">
+          <div class="timer-button">
+            {{ getButtonLabel(timers['timer1']) }}
+            <div class="hora detención">Hora de Detención: {{ timers['timer1'].fechainicio }}</div>
+            <div class="hora actual">Hora en que Reactiva: {{ timers['timer1'].fechafin }}</div>
+            <p>Tiempo Detenido: {{ getElapsedTimeDifference(timers['timer1']) }}</p>
+          </div>
+        </div>
+        <div class="button-container" (click)="toggleTimer('timer2')" [ngClass]="{'running': timers['timer2'].timerRunning, 'stopped': !timers['timer2'].timerRunning}">
+          <div class="timer-button">
+            {{ getButtonLabel(timers['timer2']) }}
+            <div class="hora inicio">Hora de Inicio: {{ timers['timer2'].fechainicio }}</div>
+            <div class="hora fin">Hora de Fin: {{ timers['timer2'].fechafin }}</div>
+            <p>Tiempo Total sin Madera: {{ getElapsedTimeDifference(timers['timer2']) }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="middle-column" style="flex: 1;">
+        <div class="button-container">
+          <div class="timer-button button-inactive" (click)="aumentarContador('biTrenGlobulus')">
+            BiTren Glóbulus <span>{{ contadorBiTrenGlobulus }}</span>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="timer-button button-inactive" (click)="aumentarContador('camionGlobulus')">
+            Camión Externo Glóbulus <span>{{ contadorCamionGlobulus }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="right-column" style="flex: 1;">
+        <div class="button-container">
+          <div class="timer-button button-inactive" (click)="aumentarContador('biTrenNitens')">
+            BiTren Nitens <span>{{ contadorBiTrenNitens }}</span>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="timer-button button-inactive" (click)="aumentarContador('camionNitens')">
+            Camión Externo Nitens <span>{{ contadorCamionNitens }}</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+<!--
+
+<div class="biotren-globulus-counter">
+  <button (click)="aumentarContador()">+</button>
+  <button (click)="disminuirContador()">-</button>
+  <span>{{ contadorBiotrenGlobulus }}</span>
+</div>
+
+-->
+
+<!--
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    .top-row {
+      font-size: 14px;
+    }
+
+    .logo-container img {
+      width: 100px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
       height: 93vh;
       background-color: #6c93e6;
     }
@@ -70,7 +263,7 @@
       font-size: 8px;
       margin-top: 10px;
       font-weight: normal;
-      font-size: xx-large;
+      font-size: large;
     }
 
     .button-container .timer-button {
@@ -125,6 +318,6 @@
     </div>
   </div>
   
-    
+    -->
 
 
