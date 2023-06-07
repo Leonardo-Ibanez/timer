@@ -48,6 +48,8 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
       this.cdr.detectChanges();
+
+      console.log('Inicio Timer', timerName, timer.fechainicio);
     } else {
       this.stopTimer(timerName);
     }
@@ -62,6 +64,8 @@ export class AppComponent implements OnInit, OnDestroy {
       timer.fechafin = currentDate.toLocaleString();
       window.cancelAnimationFrame(this.intervalIds[timerName]);
       this.currentDateTime = '';
+
+      console.log('Fin Timer', timerName, timer.fechafin);
     }
   }
 
@@ -76,7 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getButtonLabel(timer: Timer): string {
-    return timer.timerRunning ? 'Reactivar Línea' : 'Línea Detenida';
+    return timer.timerRunning ? 'Reactivar Línea' : 'Detener Línea';
   }
 
   getElapsedTimeDifference(timer: Timer): string {
@@ -109,15 +113,19 @@ export class AppComponent implements OnInit, OnDestroy {
     switch (contador) {
       case 'biTrenGlobulus':
         this.contadorBiTrenGlobulus++;
+        console.log('Contador BiTren Globulus:', this.contadorBiTrenGlobulus);
         break;
       case 'camionGlobulus':
         this.contadorCamionGlobulus++;
+        console.log('Contador Camión Externo Globulus:', this.contadorCamionGlobulus);
         break;
       case 'biTrenNitens':
         this.contadorBiTrenNitens++;
+        console.log('Contador BiTren Nitens:', this.contadorBiTrenNitens);
         break;
       case 'camionNitens':
         this.contadorCamionNitens++;
+        console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
         break;
       default:
         break;

@@ -1,102 +1,120 @@
 class AppComponent {
   constructor() {
-    this.timer1Running = false;
-    this.timer2Running = false;
-    this.secondsElapsed1 = 0;
-    this.secondsElapsed2 = 0;
-    this.timer1Color = 'green';
-    this.timer2Color = 'green';
+    this.timers = {
+      timer1: {
+        timerRunning: false,
+        fechainicio: null,
+        fechafin: null
+      },
+      timer2: {
+        timerRunning: false,
+        fechainicio: null,
+        fechafin: null
+      }
+    };
+    this.contadorBiotrenGlobulus = 0;
+    this.contadorBiotrenNitens = 0;
+    this.contadorCamionGlobulus = 0;
+    this.contadorCamionNitens = 0;
   }
 
-  startTimer(timerId) {
-    if (timerId === 1) {
-      this.timer1Running = !this.timer1Running;
-      this.timer1Color = this.timer1Running ? 'green' : 'red';
-      if (this.timer1Running) {
-        this.runTimer1();
+  toggleTimer(timerId) {
+    if (timerId === 'timer1') {
+      this.timers.timer1.timerRunning = !this.timers.timer1.timerRunning;
+      if (this.timers.timer1.timerRunning) {
+        this.timers.timer1.fechainicio = new Date();
+        console.log('Inicio Timer 1:', this.timers.timer1.fechainicio);
+        this.timers.timer1.fechafin = null;
+      } else {
+        this.timers.timer1.fechafin = new Date();
+        console.log('Fin Timer 1:', this.timers.timer1.fechafin);
       }
-    } else if (timerId === 2) {
-      this.timer2Running = !this.timer2Running;
-      this.timer2Color = this.timer2Running ? 'green' : 'red';
-      if (this.timer2Running) {
-        this.runTimer2();
+    } else if (timerId === 'timer2') {
+      this.timers.timer2.timerRunning = !this.timers.timer2.timerRunning;
+      if (this.timers.timer2.timerRunning) {
+        this.timers.timer2.fechainicio = new Date();
+        console.log('Inicio Timer 2:', this.timers.timer2.fechainicio);
+        this.timers.timer2.fechafin = null;
+      } else {
+        this.timers.timer2.fechafin = new Date();
+        console.log('Fin Timer 2:', this.timers.timer2.fechafin);
       }
     }
   }
 
-  runTimer1() {
-    setInterval(() => {
-      if (this.timer1Running) {
-        this.secondsElapsed1++;
-      }
-    }, 1000);
+  getButtonLabel(timer) {
+    return timer.timerRunning ? 'Detener' : 'Iniciar';
   }
 
-  runTimer2() {
-    setInterval(() => {
-      if (this.timer2Running) {
-        this.secondsElapsed2++;
-      }
-    }, 1000);
+  getElapsedTimeDifference(timer) {
+    if (timer.timerRunning) {
+      const currentTime = new Date();
+      const elapsedMilliseconds = currentTime - timer.fechainicio;
+      const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+      return this.formatTime(elapsedSeconds);
+    } else if (timer.fechainicio && timer.fechafin) {
+      const elapsedMilliseconds = timer.fechafin - timer.fechainicio;
+      const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+      return this.formatTime(elapsedSeconds);
+    } else {
+      return '00:00';
+    }
   }
 
   formatTime(seconds) {
-    const days = Math.floor(seconds / 86400);
-    const hours = Math.floor((seconds % 86400) / 3600);
-    const minutes = Math.floor(((seconds % 86400) % 3600) / 60);
-    const remainingSeconds = ((seconds % 86400) % 3600) % 60;
-
-    const daysDisplay = days > 0 ? days + 'd ' : '';
-    const hoursDisplay = hours > 0 ? hours + 'h ' : '';
-    const minutesDisplay = minutes > 0 ? minutes + 'm ' : '';
-    const secondsDisplay = remainingSeconds + 's';
-
-    return daysDisplay + hoursDisplay + minutesDisplay + secondsDisplay;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+    return `${formattedMinutes}:${formattedSeconds}`;
   }
 
-  getButtonLabel(timerId) {
-    if (timerId === 1) {
-      return this.timer1Running ? 'Detener' : 'Iniciar';
-    } else if (timerId === 2) {
-      return this.timer2Running ? 'Detener' : 'Iniciar';
+  aumentarContador(buttonType) {
+    switch (buttonType) {
+      case 'biTrenGlobulus':
+        this.contadorBiotrenGlobulus++;
+        console.log('Contador BiTren Glóbulus:', this.contadorBiotrenGlobulus);
+        break;
+      case 'camionGlobulus':
+        this.contadorCamionGlobulus++;
+        console.log('Contador Camión Externo Glóbulus:', this.contadorCamionGlobulus);
+        break;
+      case 'biTrenNitens':
+        this.contadorBiotrenNitens++;
+        console.log('Contador BiTren Nitens:', this.contadorBiotrenNitens);
+        break;
+      case 'camionNitens':
+        this.contadorCamionNitens++;
+        console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
+        break;
+      default:
+        break;
     }
-    return '';
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  document.addEventListener('touchmove', function(event) {
-    event.preventDefault();
-  }, { passive: false });
+const app = new AppComponent();
+
+document.getElementById('timer1Button').addEventListener('click', function() {
+  app.toggleTimer('timer1');
 });
 
-// Obtener el elemento del span por su id
-const currentDateTimeElement = document.getElementById('currentDateTime');
+document.getElementById('timer2Button').addEventListener('click', function() {
+  app.toggleTimer('timer2');
+});
 
-// Función para obtener la hora actual y actualizar el contenido del span
-function updateCurrentDateTime() {
-  const currentDate = new Date();
-  const currentDateTime = currentDate.toLocaleTimeString();
-  currentDateTimeElement.textContent = currentDateTime;
-}
+document.getElementById('biTrenGlobulusButton').addEventListener('click', function() {
+  app.aumentarContador('biTrenGlobulus');
+});
 
-// Llamar a la función inicialmente para mostrar la hora actual
-updateCurrentDateTime();
+document.getElementById('camionGlobulusButton').addEventListener('click', function() {
+  app.aumentarContador('camionGlobulus');
+});
 
-// Actualizar la hora actual cada segundo
-setInterval(updateCurrentDateTime, 1000);
+document.getElementById('biTrenNitensButton').addEventListener('click', function() {
+  app.aumentarContador('biTrenNitens');
+});
 
-// Variables para los contadores
-let contadorBiotrenGlobulus = 0;
-let contadorBiotrenMitens = 0;
-let contadorCamionExternoGlobulus = 0;
-let contadorCamionExternoMitens = 0;
-
-// Funciones para aumentar y disminuir la cantidad en uno
-function aumentarContador(variable) {
-  return variable + 1;
-}
-
-function disminuirContador(variable) {
-  return variable - 1;
-}
+document.getElementById('camionNitensButton').addEventListener('click', function() {
+  app.aumentarContador('camionNitens');
+});

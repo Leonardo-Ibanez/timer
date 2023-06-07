@@ -33,7 +33,6 @@
 .left-column,
 .middle-column,
 .right-column {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,13 +41,13 @@
 }
 
 .button-container {
-  margin: 15px 0;
+  margin: 0; /* Elimina los márgenes */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100px;
+  height: auto; /* Elimina la altura fija para que los botones se ajusten */
   cursor: pointer;
 }
 
@@ -58,22 +57,22 @@
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  padding: 10px;
+  padding: 0; /* Elimina el padding para que los botones se expandan */
   font-size: 16px;
   font-weight: bold;
-  margin: 10px;
-  width: 100px;
-  height: 100px;
+  font-size: x-large;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .button-inactive {
-  background-color: #ccc;
-  color: #000;
+  background-color: #ccc; /* Cambia este valor al color para el estado inactivo */
+  color: #000; /* Cambia este valor al color del texto para el estado inactivo */
 }
 
 .button-active {
-  background-color: #ff0000;
-  color: #fff;
+  background-color: #ff0000; /* Cambia este valor al color para el estado activo */
+  color: #fff; /* Cambia este valor al color del texto para el estado activo */
 }
 
 .button-large {
@@ -84,81 +83,70 @@
 }
 
 .counter {
-  font-size: 8px;
+  font-size: 16px; /* Aumenta el tamaño del número */
   margin-top: 10px;
   font-weight: normal;
   font-size: large;
 }
 
-.button-container.running,
-.button-container.stopped {
+.button-container.running {
   background-color: rgb(255, 67, 67);
   color: white;
 }
 
-.right-column .button-container,
-.middle-column .button-container {
-  margin: 0;
+.button-container.stopped {
+  background-color: green;
+  color: white;
 }
 
-.biTren-globulus-container,
-.camion-globulus-container,
-.biTren-nitens-container,
-.camion-nitens-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: #c8e6c9;
-  padding: 10px;
-  margin-top: 15px;
+.right-column .button-container {
+  margin-bottom: 15px;
 }
 
-.biTren-globulus-counter,
-.camion-globulus-counter,
-.biTren-nitens-counter,
-.camion-nitens-counter {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  font-size: 24px;
+.right-column .timer-button,
+.middle-column .timer-button {
+  width: 100%;
+  height: 85%;
 }
 
-.biTren-globulus-counter button,
-.camion-globulus-counter button,
-.biTren-nitens-counter button,
-.camion-nitens-counter button {
-  font-size: 20px;
-  padding: 5px 10px;
-  margin: 0 5px;
+/* Nuevas modificaciones */
+.left-column {
+  flex: 60%;
 }
 
-.biTren-globulus-counter span,
-.camion-globulus-counter span,
-.biTren-nitens-counter span,
-.camion-nitens-counter span {
-  font-size: 24px;
-  margin: 0 10px;
+.middle-column,
+.right-column {
+  flex: 20%;
 }
 
-.biTren-globulus-counter button:first-child,
-.camion-globulus-counter button:first-child,
-.biTren-nitens-counter button:first-child,
-.camion-nitens-counter button:first-child {
-  order: 2;
+.button-container:not(.running):not(.stopped) {
+
+  color: #000;
 }
 
-.biTren-globulus-counter button:last-child,
-.camion-globulus-counter button:last-child,
-.biTren-nitens-counter button:last-child,
-.camion-nitens-counter button:last-child {
-  order: 1;
+.button-container:not(.running):not(.stopped) .timer-button {
+  background-color: #4e77ff;
+  color: #ffffff;
 }
 
-.clock {
-  font-size: 20px;
+.button-container:not(.running):not(.stopped) .timer-button span {
+  font-size: 18px; /* Aumenta el tamaño del número */
+}
+
+.button-container:not(.running):not(.stopped) .timer-button div {
+  font-size: 16px; /* Aumenta el tamaño del texto */
+  margin: 5px 0; /* Ajusta el espaciado entre elementos */
+}
+
+.button-container:not(.running):not(.stopped) .timer-button div.hora.detención,
+.button-container:not(.running):not(.stopped) .timer-button div.hora.actual,
+.button-container:not(.running):not(.stopped) .timer-button div.hora.inicio,
+.button-container:not(.running):not(.stopped) .timer-button div.hora.fin,
+.button-container:not(.running):not(.stopped) .timer-button div.tiempo.detenido,
+.button-container:not(.running):not(.stopped) .timer-button div.tiempo.total {
   font-weight: bold;
+}
+
+.button-container:not(.running):not(.stopped) .timer-button div:nth-child(even) {
+  font-weight: normal;
 }
