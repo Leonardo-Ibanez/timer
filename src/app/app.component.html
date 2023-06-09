@@ -67,10 +67,10 @@
       padding: 10px;
       font-size: 16px;
       font-weight: bold;
-      font-size: x-large;
+      font-size: large;
       width: 100%;
-      height: 100%;
-      margin: 5px;
+      height: 80%;
+      margin: 0px;
       box-sizing: border-box;
       text-align: center;
     }
@@ -144,24 +144,24 @@
           <div class="timer-button">
             <p>Línea Mecánica Detenida</p>
             {{ getButtonLabel(timers['timer1']) }}
-            <div class="hora detención">Hora de Detención: </div>
-            <div>{{ timers['timer1'].fechainicio }}</div>
-            <div class="hora actual">Hora en que Reactiva: </div>
-            <div>{{ timers['timer1'].fechafin }}</div>
-            <div>Tiempo Detenido: </div>
-            <div>{{ getElapsedTimeDifference(timers['timer1']) }}</div>
+            <div class="hora detención">Hora de Detención: {{ timers['timer1'].fechainicio }}</div>
+            <div></div>
+            <div class="hora actual">Hora en que Reactiva: {{ timers['timer1'].fechafin }} </div>
+            <div></div>
+            <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer1']) }} </div>
+            <div></div>
           </div>
         </div>
         <div class="button-container" (click)="toggleTimer('timer2')" [ngClass]="{'running': timers['timer2'].timerRunning, 'stopped': !timers['timer2'].timerRunning}">
           <div class="timer-button">
             <p>Línea Sin Madera</p>
             {{ getButtonLabel(timers['timer2']) }}
-            <div class="hora inicio">Hora de Inicio: </div>
-            <div>{{ timers['timer2'].fechainicio }}</div>
-            <div class="hora fin">Hora de Fin: </div>
-            <div>{{ timers['timer2'].fechafin }}</div>
-            <div>Tiempo Total sin Madera: </div>
-            <div>{{ getElapsedTimeDifference(timers['timer2']) }}</div>
+            <div class="hora inicio">Hora de Inicio: {{ timers['timer2'].fechainicio }} </div>
+            <div></div>
+            <div class="hora fin">Hora de Fin: {{ timers['timer2'].fechafin }} </div>
+            <div></div>
+            <div>Tiempo Total sin Madera: {{ getElapsedTimeDifference(timers['timer2']) }} </div>
+            <div></div>
           </div>
         </div>
       </div>

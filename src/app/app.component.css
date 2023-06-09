@@ -41,13 +41,13 @@
 }
 
 .button-container {
-  margin: 0; /* Elimina los márgenes */
+  margin: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: auto; /* Elimina la altura fija para que los botones se ajusten */
+  height: auto;
   cursor: pointer;
 }
 
@@ -55,9 +55,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Alineación a la izquierda */
   flex-grow: 1;
-  padding: 0; /* Elimina el padding para que los botones se expandan */
+  padding: 0;
   font-size: 16px;
   font-weight: bold;
   font-size: x-large;
@@ -66,13 +66,13 @@
 }
 
 .button-inactive {
-  background-color: #ccc; /* Cambia este valor al color para el estado inactivo */
-  color: #000; /* Cambia este valor al color del texto para el estado inactivo */
+  background-color: #ccc;
+  color: #000;
 }
 
 .button-active {
-  background-color: #ff0000; /* Cambia este valor al color para el estado activo */
-  color: #fff; /* Cambia este valor al color del texto para el estado activo */
+  background-color: #ff0000;
+  color: #fff;
 }
 
 .button-large {
@@ -83,7 +83,7 @@
 }
 
 .counter {
-  font-size: 16px; /* Aumenta el tamaño del número */
+  font-size: 16px;
   margin-top: 10px;
   font-weight: normal;
   font-size: large;
@@ -109,18 +109,14 @@
   height: 85%;
 }
 
-/* Nuevas modificaciones */
-.left-column {
-  flex: 60%;
+/* Botones con tamaño fijo */
+.button-container .timer-button {
+  width: 100px;
+  height: 50px;
 }
 
-.middle-column,
-.right-column {
-  flex: 20%;
-}
-
+/* Otros estilos */
 .button-container:not(.running):not(.stopped) {
-
   color: #000;
 }
 
@@ -130,23 +126,23 @@
 }
 
 .button-container:not(.running):not(.stopped) .timer-button span {
-  font-size: 18px; /* Aumenta el tamaño del número */
+  font-size: 18px;
 }
 
 .button-container:not(.running):not(.stopped) .timer-button div {
-  font-size: 16px; /* Aumenta el tamaño del texto */
-  margin: 5px 0; /* Ajusta el espaciado entre elementos */
+  font-size: 16px;
+  margin: 5px 0;
+  text-align: left; /* Alineación a la izquierda */
 }
 
 .button-container:not(.running):not(.stopped) .timer-button div.hora.detención,
-.button-container:not(.running):not(.stopped) .timer-button div.hora.actual,
 .button-container:not(.running):not(.stopped) .timer-button div.hora.inicio,
-.button-container:not(.running):not(.stopped) .timer-button div.hora.fin,
-.button-container:not(.running):not(.stopped) .timer-button div.tiempo.detenido,
-.button-container:not(.running):not(.stopped) .timer-button div.tiempo.total {
+.button-container:not(.running):not(.stopped) .timer-button div.tiempo.detenido {
   font-weight: bold;
 }
 
-.button-container:not(.running):not(.stopped) .timer-button div:nth-child(even) {
+.button-container:not(.running):not(.stopped) .timer-button div.hora.actual,
+.button-container:not(.running):not(.stopped) .timer-button div.hora.fin,
+.button-container:not(.running):not(.stopped) .timer-button div.tiempo.total {
   font-weight: normal;
 }
