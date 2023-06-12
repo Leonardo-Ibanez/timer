@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   contadorBiTrenNitens: number = 0;
   contadorCamionGlobulus: number = 0;
   contadorCamionNitens: number = 0;
-  
+  lastClickButtons: { [key: string]: number } = {};
 
   constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) {}
 
@@ -111,30 +111,58 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   aumentarContador(contador: string): void {
-    switch (contador) {
-      case 'biTrenGlobulus':
-        this.contadorBiTrenGlobulus++;
-        console.log('Contador BiTren Globulus:', this.contadorBiTrenGlobulus);
-        break;
-      case 'camionGlobulus':
-        this.contadorCamionGlobulus++;
-        console.log('Contador Camión Externo Globulus:', this.contadorCamionGlobulus);
-        break;
-      case 'biTrenNitens':
-        this.contadorBiTrenNitens++;
-        console.log('Contador BiTren Nitens:', this.contadorBiTrenNitens);
-        break;
-      case 'camionNitens':
-        this.contadorCamionNitens++;
-        console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
-        break;
-      default:
-        break;
+    const currentTime = Date.now();
+    const lastClickTime = this.lastClickButtons[contador];
+
+    if (!lastClickTime || (currentTime - lastClickTime) >= 180000) {
+      // Permitir incrementar el contador
+      switch (contador) {
+        case 'biTrenGlobulus':
+          this.contadorBiTrenGlobulus++;
+          console.log('Contador BiTren Globulus:', this.contadorBiTrenGlobulus);
+          break;
+        case 'camionGlobulus':
+          this.contadorCamionGlobulus++;
+          console.log('Contador Camión Externo Globulus:', this.contadorCamionGlobulus);
+          break;
+        case 'biTrenNitens':
+          this.contadorBiTrenNitens++;
+          console.log('Contador BiTren Nitens:', this.contadorBiTrenNitens);
+          break;
+        case 'camionNitens':
+          this.contadorCamionNitens++;
+          console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
+          break;
+        default:
+          break;
+      }
+
+      // Actualizar el último tiempo de clic
+      this.lastClickButtons[contador] = currentTime;
+    } else {
+      // Mostrar el pop-up indicando que el botón está bloqueado
+      const buttonName = this.getButtonName(contador);
+      alert(`Debes esperar 3 minutos antes de poder cargar de nuevo desde un ${buttonName}.`);
     }
   }
 
   disminuirContador(contador: string): void {
     // No se realiza ninguna acción al disminuir el contador
+  }
+
+  getButtonName(contador: string): string {
+    switch (contador) {
+      case 'biTrenGlobulus':
+        return 'BiTren Glóbulus';
+      case 'camionGlobulus':
+        return 'Camión Externo Glóbulus';
+      case 'biTrenNitens':
+        return 'BiTren Nitens';
+      case 'camionNitens':
+        return 'Camión Externo Nitens';
+      default:
+        return '';
+    }
   }
 
   ngOnInit(): void {
@@ -153,6 +181,8 @@ interface Timer {
   fechainicio: string | null;
   fechafin: string | null;
 }
+
+
 
 /*
 
