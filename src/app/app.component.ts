@@ -110,6 +110,11 @@ export class AppComponent implements OnInit, OnDestroy {
     return value.toString().padStart(2, '0');
   }
 
+  logClickDate(contador: string): void {
+    const currentTime = Date.now();
+    console.log(`Fecha de clic en ${contador}:`, new Date(currentTime).toLocaleString());
+  }
+
   aumentarContador(contador: string): void {
     const currentTime = Date.now();
     const lastClickTime = this.lastClickButtons[contador];
@@ -120,18 +125,22 @@ export class AppComponent implements OnInit, OnDestroy {
         case 'biTrenGlobulus':
           this.contadorBiTrenGlobulus++;
           console.log('Contador BiTren Globulus:', this.contadorBiTrenGlobulus);
+          this.logClickDate(contador);
           break;
         case 'camionGlobulus':
           this.contadorCamionGlobulus++;
           console.log('Contador Camión Externo Globulus:', this.contadorCamionGlobulus);
+          this.logClickDate(contador);
           break;
         case 'biTrenNitens':
           this.contadorBiTrenNitens++;
           console.log('Contador BiTren Nitens:', this.contadorBiTrenNitens);
+          this.logClickDate(contador);
           break;
         case 'camionNitens':
           this.contadorCamionNitens++;
           console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
+          this.logClickDate(contador);
           break;
         default:
           break;
@@ -142,7 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       // Mostrar el pop-up indicando que el botón está bloqueado
       const buttonName = this.getButtonName(contador);
-      alert(`Debes esperar 3 minutos antes de poder cargar de nuevo desde un ${buttonName}.`);
+      alert(`Debes esperar 3 minutos antes de poder cargar de nuevo un ${buttonName}.`);
     }
   }
 
@@ -181,6 +190,7 @@ interface Timer {
   fechainicio: string | null;
   fechafin: string | null;
 }
+
 
 
 
