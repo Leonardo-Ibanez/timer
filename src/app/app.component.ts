@@ -10,14 +10,23 @@ export class AppComponent implements OnInit, OnDestroy {
     timer1: {
       timerRunning: false,
       fechainicio: null,
-      fechafin: null
+      fechafin: null,
+      starttimernumber: null,
+      stoptimernumber: null,
+      tiempodetenidonumber: null
     },
     timer2: {
       timerRunning: false,
       fechainicio: null,
-      fechafin: null
+      fechafin: null,
+      starttimernumber: null,
+      stoptimernumber: null,
+      tiempodetenidonumber: null
     }
   };
+
+  consoleLogs: string[] = [];
+  timers2: Timer[] = [];
 
   intervalIds: { [key: string]: number } = {};
   currentDateTime: string = '';
@@ -36,7 +45,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!timer.timerRunning) {
       const currentDate = new Date();
       timer.fechainicio = currentDate.toLocaleString();
+      timer.starttimernumber = this.convertFechaToNumber(currentDate);
       timer.fechafin = ''; // Reiniciar el valor de "hora en que reactiva"
+      timer.stoptimernumber = null;
       timer.timerRunning = true;
 
       if (!this.showClock) {
@@ -63,11 +74,40 @@ export class AppComponent implements OnInit, OnDestroy {
       timer.timerRunning = false;
       const currentDate = new Date();
       timer.fechafin = currentDate.toLocaleString();
+      timer.stoptimernumber = this.convertFechaToNumber(currentDate);
       window.cancelAnimationFrame(this.intervalIds[timerName]);
       this.currentDateTime = '';
 
       console.log('Fin Timer', timerName, timer.fechafin);
+
+      const elapsedTime = this.getElapsedTimeDifference(timer);
+      console.log('Tiempo transcurrido:', elapsedTime);
+
+      // Agregar el timer a timers2
+      this.timers2.push(timer);
     }
+  }
+
+  getElapsedTimeDifference(timer: Timer): string {
+    const start = timer.starttimernumber ? new Date(timer.starttimernumber) : null;
+    const stop = timer.stoptimernumber ? new Date(timer.stoptimernumber) : null;
+
+    if (start && stop) {
+      let elapsedMilliseconds = Math.abs(stop.getTime() - start.getTime());
+
+      const hours = Math.floor(elapsedMilliseconds / 3600000);
+      const minutes = Math.floor((elapsedMilliseconds % 3600000) / 60000);
+      const seconds = Math.floor((elapsedMilliseconds % 60000) / 1000);
+
+      const formattedTime = `${this.padZero(hours)}:${this.padZero(minutes)}:${this.padZero(seconds)}`;
+      return formattedTime;
+    }
+
+    return '';
+  }
+
+  convertFechaToNumber(date: Date): number {
+    return date.getTime();
   }
 
   updateClock(): void {
@@ -82,28 +122,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getButtonLabel(timer: Timer): string {
     return timer.timerRunning ? 'Reactivar Línea' : 'Detener Línea';
-  }
-
-  getElapsedTimeDifference(timer: Timer): string {
-    const start = timer.fechainicio;
-    const stop = timer.fechafin;
-
-    if (start && stop) {
-      let elapsedMilliseconds = Math.abs(Date.parse(stop) - Date.parse(start));
-
-      if (timer.timerRunning) {
-        elapsedMilliseconds += Date.now() - Date.parse(start);
-      }
-
-      const hours = Math.floor(elapsedMilliseconds / 3600000);
-      const minutes = Math.floor((elapsedMilliseconds % 3600000) / 60000);
-      const seconds = Math.floor((elapsedMilliseconds % 60000) / 1000);
-
-      const formattedTime = `${this.padZero(hours)}:${this.padZero(minutes)}:${this.padZero(seconds)}`;
-      return formattedTime;
-    }
-
-    return '';
   }
 
   padZero(value: number): string {
@@ -174,8 +192,16 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  mostrarDatosGuardados(): void {
+    console.log('Datos guardados en timers2:');
+    for (const timer of this.timers2) {
+      console.log('Timer:', timer);
+    }
+  }
+
   ngOnInit(): void {
     this.updateClock();
+    this.mostrarDatosGuardados();
   }
 
   ngOnDestroy(): void {
@@ -189,7 +215,11 @@ interface Timer {
   timerRunning: boolean;
   fechainicio: string | null;
   fechafin: string | null;
+  starttimernumber: number | null;
+  stoptimernumber: number | null;
+  tiempodetenidonumber: number | null;
 }
+
 
 
 
