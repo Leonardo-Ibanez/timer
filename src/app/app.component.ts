@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   consoleLogs: string[] = [];
   timers2: Timer[] = [];
+  contadores2: Contador[] = [];
 
   intervalIds: { [key: string]: number } = {};
   currentDateTime: string = '';
@@ -166,6 +167,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Actualizar el último tiempo de clic
       this.lastClickButtons[contador] = currentTime;
+
+      // Agregar el contador a contadores2
+      this.contadores2.push({ nombre: contador, valor: this.getContadorValue(contador) });
     } else {
       // Mostrar el pop-up indicando que el botón está bloqueado
       const buttonName = this.getButtonName(contador);
@@ -192,22 +196,31 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  mostrarDatosGuardados(): void {
-    console.log('Datos guardados en timers2:');
-    for (const timer of this.timers2) {
-      console.log('Timer:', timer);
+  getContadorValue(contador: string): number {
+    switch (contador) {
+      case 'biTrenGlobulus':
+        return this.contadorBiTrenGlobulus;
+      case 'camionGlobulus':
+        return this.contadorCamionGlobulus;
+      case 'biTrenNitens':
+        return this.contadorBiTrenNitens;
+      case 'camionNitens':
+        return this.contadorCamionNitens;
+      default:
+        return 0;
     }
   }
 
   ngOnInit(): void {
     this.updateClock();
-    this.mostrarDatosGuardados();
   }
 
   ngOnDestroy(): void {
-    Object.values(this.intervalIds).forEach((intervalId) => {
-      window.cancelAnimationFrame(intervalId);
-    });
+    for (const intervalId in this.intervalIds) {
+      if (this.intervalIds.hasOwnProperty(intervalId)) {
+        window.cancelAnimationFrame(this.intervalIds[intervalId]);
+      }
+    }
   }
 }
 
@@ -218,6 +231,11 @@ interface Timer {
   starttimernumber: number | null;
   stoptimernumber: number | null;
   tiempodetenidonumber: number | null;
+}
+
+interface Contador {
+  nombre: string;
+  valor: number;
 }
 
 

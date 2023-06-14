@@ -190,6 +190,9 @@
         </div>
       </div>
       <pre>{{ timers | json }}</pre>
+      <div *ngFor="let contador of contadores2">
+        <p>{{ contador.nombre }} <span>{{ contador.valor }}</span></p>
+      </div>
       
     </div>
   </div>
