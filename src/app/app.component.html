@@ -189,11 +189,42 @@
           </div>
         </div>
       </div>
-      <pre>{{ timers | json }}</pre>
-      <div *ngFor="let contador of contadores2">
-        <p>{{ contador.nombre }} <span>{{ contador.valor }}</span></p>
-      </div>
-      
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Timer</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha de Fin</th>
+            <th>Tiempo Transcurrido</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let timer of timers2">
+            <td>{{ timer.id }}</td>
+            <td>{{ timer.nombre }}</td>
+            <td>{{ timer.timer.fechainicio }}</td>
+            <td>{{ timer.timer.fechafin }}</td>
+            <td>{{ getElapsedTimeDifference(timer.timer) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Contador</th>
+            <th>Valor</th>
+            <th>Fecha y Hora del Clic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contador of contadores2">
+            <td>{{ contador.nombre }}</td>
+            <td>{{ contador.valor }}</td>
+            <td>{{ contador.fecha_hora }}</td>
+          </tr>
+        </tbody>
+      </table>     
     </div>
   </div>
 </body>

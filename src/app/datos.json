@@ -1,0 +1,78 @@
+{
+	"timers":{
+	"linea_mecanica_detenida":{
+
+		"timer1":{
+			"timerRunning": false,
+			"fechainicio": "15/6/2023, 13:41:56",
+			"fechafin": "15/6/2023, 13:41:57",
+			"starttimernumber": 1686850916737,
+			"stoptimernumber": 1686850917369,
+			"tiempodetenidonumber": null
+		},
+
+		"timer2":{
+			"timerRunning": true,
+			"fechainicio": "15/6/2023, 13:41:58",
+			"fechafin": "",
+			"starttimernumber": 1686850918217,
+			"stoptimernumber": null,
+			"tiempodetenidonumber": null		
+		}
+	},
+
+
+	"linea_sin_madera":{
+
+		"timer1":{
+			"timerRunning": false,
+			"fechainicio": "15/6/2023, 13:44:56",
+			"fechafin": "15/6/2023, 13:41:57",
+			"starttimernumber": 1686850916737,
+			"stoptimernumber": 1686850917369,
+			"tiempodetenidonumber": null
+		},
+
+		"timer2":{
+			"timerRunning": true,
+			"fechainicio": "15/6/2023, 13:48:58",
+			"fechafin": "",
+			"starttimernumber": 1686850918217,
+			"stoptimernumber": null,
+			"tiempodetenidonumber": null			
+		}
+	}
+
+	},
+	"contadores":[
+		{
+		"id":1,
+		"fecha_hora": "15/06/2023 13:53:40",
+		"tipo":"bitrenGlobulus"
+		},
+
+		{
+		"id":2,
+		"fecha_hora": "15/06/2023 13:46:20",
+		"tipo":"bitrenNitens"
+		},
+
+		{
+		"id":3,
+		"fecha_hora": "15/06/023 13:54:22",
+		"tipo":"bitrenGlobulus"
+		},
+
+		{
+		"id":4,
+		"fecha_hora": "15/06/2023 13:56:19",
+		"tipo":"bitrenNitens"
+		},
+
+		{
+		"id":5,
+		"fecha_hora": "15/06/2023 13:56:30",
+		"tipo":"bitrenGlobulus"
+		}
+    ]
+}

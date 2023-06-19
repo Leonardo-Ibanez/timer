@@ -12,22 +12,22 @@ export class AppComponent implements OnInit, OnDestroy {
       fechainicio: null,
       fechafin: null,
       starttimernumber: null,
-      stoptimernumber: null,
-      tiempodetenidonumber: null
+      stoptimernumber: null
     },
     timer2: {
       timerRunning: false,
       fechainicio: null,
       fechafin: null,
       starttimernumber: null,
-      stoptimernumber: null,
-      tiempodetenidonumber: null
+      stoptimernumber: null
     }
   };
 
-  consoleLogs: string[] = [];
-  timers2: Timer[] = [];
-  contadores2: Contador[] = [];
+  consoleLogs: string[] = [];  // DATOS PARA MOSTRAR 
+  timers2: { id: number; nombre: string; timer: Timer }[] = [];
+  timers2Counter: number = 0;
+  contadores2: { id: number; nombre: string; valor: number; fecha_hora: string }[] = [];
+  contadores2Counter: number = 0;
 
   intervalIds: { [key: string]: number } = {};
   currentDateTime: string = '';
@@ -85,7 +85,8 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log('Tiempo transcurrido:', elapsedTime);
 
       // Agregar el timer a timers2
-      this.timers2.push(timer);
+      this.timers2Counter++;
+      this.timers2.push({ id: this.timers2Counter, nombre: timerName, timer: { ...timer } });
     }
   }
 
@@ -129,9 +130,13 @@ export class AppComponent implements OnInit, OnDestroy {
     return value.toString().padStart(2, '0');
   }
 
-  logClickDate(contador: string): void {
-    const currentTime = Date.now();
-    console.log(`Fecha de clic en ${contador}:`, new Date(currentTime).toLocaleString());
+  logClickDate(contador: string, currentTime: number): void {
+    const clickDate = new Date(currentTime).toLocaleString();
+    console.log(`Fecha de clic en ${contador}:`, clickDate);
+
+    // Agregar el contador a contadores2 con la fecha del clic
+    this.contadores2Counter++;
+    this.contadores2.push({ id: this.contadores2Counter, nombre: contador, valor: this.getContadorValue(contador), fecha_hora: clickDate });
   }
 
   aumentarContador(contador: string): void {
@@ -144,22 +149,22 @@ export class AppComponent implements OnInit, OnDestroy {
         case 'biTrenGlobulus':
           this.contadorBiTrenGlobulus++;
           console.log('Contador BiTren Globulus:', this.contadorBiTrenGlobulus);
-          this.logClickDate(contador);
+          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
           break;
         case 'camionGlobulus':
           this.contadorCamionGlobulus++;
           console.log('Contador Camión Externo Globulus:', this.contadorCamionGlobulus);
-          this.logClickDate(contador);
+          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
           break;
         case 'biTrenNitens':
           this.contadorBiTrenNitens++;
           console.log('Contador BiTren Nitens:', this.contadorBiTrenNitens);
-          this.logClickDate(contador);
+          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
           break;
         case 'camionNitens':
           this.contadorCamionNitens++;
           console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
-          this.logClickDate(contador);
+          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
           break;
         default:
           break;
@@ -167,32 +172,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Actualizar el último tiempo de clic
       this.lastClickButtons[contador] = currentTime;
-
-      // Agregar el contador a contadores2
-      this.contadores2.push({ nombre: contador, valor: this.getContadorValue(contador) });
     } else {
       // Mostrar el pop-up indicando que el botón está bloqueado
       const buttonName = this.getButtonName(contador);
-      alert(`Debes esperar 3 minutos antes de poder cargar de nuevo un ${buttonName}.`);
-    }
-  }
-
-  disminuirContador(contador: string): void {
-    // No se realiza ninguna acción al disminuir el contador
-  }
-
-  getButtonName(contador: string): string {
-    switch (contador) {
-      case 'biTrenGlobulus':
-        return 'BiTren Glóbulus';
-      case 'camionGlobulus':
-        return 'Camión Externo Glóbulus';
-      case 'biTrenNitens':
-        return 'BiTren Nitens';
-      case 'camionNitens':
-        return 'Camión Externo Nitens';
-      default:
-        return '';
+      alert(`El botón "${buttonName}" está bloqueado. Espere 3 minutos para poder hacer clic nuevamente.`);
     }
   }
 
@@ -211,16 +194,41 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  getButtonName(contador: string): string {
+    switch (contador) {
+      case 'biTrenGlobulus':
+        return 'BiTren Globulus';
+      case 'camionGlobulus':
+        return 'Camión Externo Globulus';
+      case 'biTrenNitens':
+        return 'BiTren Nitens';
+      case 'camionNitens':
+        return 'Camión Externo Nitens';
+      default:
+        return '';
+    }
+  }
+
+  exportDataToJson(): void {
+    const data = {
+      timers: this.timers,
+      contadores2: this.contadores2
+    };
+
+    const jsonData = JSON.stringify(data);
+    console.log(jsonData);
+        
+  }
+  
+
+  
+
   ngOnInit(): void {
     this.updateClock();
   }
 
   ngOnDestroy(): void {
-    for (const intervalId in this.intervalIds) {
-      if (this.intervalIds.hasOwnProperty(intervalId)) {
-        window.cancelAnimationFrame(this.intervalIds[intervalId]);
-      }
-    }
+    window.cancelAnimationFrame(this.intervalIds['clock']);
   }
 }
 
@@ -230,15 +238,7 @@ interface Timer {
   fechafin: string | null;
   starttimernumber: number | null;
   stoptimernumber: number | null;
-  tiempodetenidonumber: number | null;
 }
-
-interface Contador {
-  nombre: string;
-  valor: number;
-}
-
-
 
 
 
@@ -293,10 +293,6 @@ aumentarFecha(contadorFecha: string): void {
 
 
 */
-
-
-
-
 
 
 /*
