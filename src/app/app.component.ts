@@ -5,6 +5,8 @@ import { Component, NgZone, OnDestroy, OnInit, ChangeDetectorRef } from '@angula
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
 export class AppComponent implements OnInit, OnDestroy {
   timers: { [key: string]: Timer } = {
     timer1: {
@@ -87,6 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
       // Agregar el timer a timers2
       this.timers2Counter++;
       this.timers2.push({ id: this.timers2Counter, nombre: timerName, timer: { ...timer } });
+      this.exportDataToJson();
     }
   }
 
@@ -143,7 +146,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const currentTime = Date.now();
     const lastClickTime = this.lastClickButtons[contador];
 
-    if (!lastClickTime || (currentTime - lastClickTime) >= 180000) {
+    if (!lastClickTime || (currentTime - lastClickTime) >= 18) {
       // Permitir incrementar el contador
       switch (contador) {
         case 'biTrenGlobulus':
@@ -168,6 +171,7 @@ export class AppComponent implements OnInit, OnDestroy {
           break;
         default:
           break;
+          
       }
 
       // Actualizar el último tiempo de clic
@@ -177,6 +181,7 @@ export class AppComponent implements OnInit, OnDestroy {
       const buttonName = this.getButtonName(contador);
       alert(`El botón "${buttonName}" está bloqueado. Espere 3 minutos para poder hacer clic nuevamente.`);
     }
+    this.exportDataToJson();
   }
 
   getContadorValue(contador: string): number {
@@ -209,20 +214,152 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  getTotalContador(): number {
+    return this.contadorBiTrenGlobulus + this.contadorCamionGlobulus + this.contadorBiTrenNitens + this.contadorCamionNitens;
+  }
+  
+  initializeCounters(): void {
+    // Verificar si hay contadores almacenados en el JSON
+    const storedCounters = localStorage.getItem('counters');
+    if (storedCounters) {
+      const counters = JSON.parse(storedCounters);
+
+      // Verificar si el último contador tiene un valor igual a 1
+      const lastCounter = counters[counters.length - 1];
+      if (lastCounter && lastCounter.valor === 1) {
+        // Establecer el valor del último contador en 0
+        lastCounter.valor = 0;
+      }
+
+      // Actualizar los contadores en la aplicación
+      this.contadores2 = counters;
+      this.contadores2Counter = counters.length;
+    }
+  }
+
   exportDataToJson(): void {
+    const totalContadorId = this.contadores2Counter + 1; // ID incremental basada en contadores2Counter
+    
     const data = {
       timers: this.timers,
-      contadores2: this.contadores2
+      contadores: this.contadores2,
+      totalContador: {
+        id: totalContadorId,
+        valor: this.getTotalContador()
+      }
     };
 
     const jsonData = JSON.stringify(data);
     console.log(jsonData);
         
   }
+
+  revertLastClick(contador: string): void {
+    switch (contador) {
+      case 'biTrenGlobulus':
+        if (this.contadorBiTrenGlobulus > 0) {
+          this.contadorBiTrenGlobulus--;
+          this.removeLastClickDate(contador);
+          console.log('Revertido el último clic en BiTren Globulus');
+        }
+        break;
+      case 'camionGlobulus':
+        if (this.contadorCamionGlobulus > 0) {
+          this.contadorCamionGlobulus--;
+          this.removeLastClickDate(contador);
+          console.log('Revertido el último clic en Camión Externo Globulus');
+        }
+        break;
+      case 'biTrenNitens':
+        if (this.contadorBiTrenNitens > 0) {
+          this.contadorBiTrenNitens--;
+          this.removeLastClickDate(contador);
+          console.log('Revertido el último clic en BiTren Nitens');
+        }
+        break;
+      case 'camionNitens':
+        if (this.contadorCamionNitens > 0) {
+          this.contadorCamionNitens--;
+          this.removeLastClickDate(contador);
+          console.log('Revertido el último clic en Camión Externo Nitens');
+        }
+        break;
+      default:
+        break;
+    }
+    this.exportDataToJson();
+  }
+  
+  removeLastClickDate(contador: string): void {
+    const contadorIndex = this.contadores2.findIndex(c => c.nombre === contador);
+  
+    if (contadorIndex !== -1) {
+      const lastClick = this.contadores2[contadorIndex].fecha_hora;
+      this.contadores2.splice(contadorIndex, 1);
+      console.log(`Eliminada la fecha del último clic en ${contador}: ${lastClick}`);
+    } else {
+      // Si no se encuentra un registro con el contador especificado, buscar el último registro en general y eliminarlo
+      const lastContadorIndex = this.contadores2.length - 1;
+      if (lastContadorIndex >= 0) {
+        const lastClick = this.contadores2[lastContadorIndex].fecha_hora;
+        this.contadores2.splice(lastContadorIndex, 1);
+        console.log(`Eliminada la fecha del último clic en ${contador}: ${lastClick}`);
+      }
+    }
+  
+    this.exportDataToJson();
+  }
   
 
   
+  restarUnoBiTrenGlobulus(): void {
+    if (this.contadorBiTrenGlobulus > 0) {
+      this.contadorBiTrenGlobulus--;
+      this.removeLastClickDate('bitrenglobulus');
+      this.exportDataToJson();
+      console.log('Revertido el último clic en Bitren Globulus');
+    }
+  }
+  
+  restarUnoCamionGlobulus(): void {
+    if (this.contadorCamionGlobulus > 0) {
+      this.contadorCamionGlobulus--;
+      this.removeLastClickDate('camionGlobulus');
+      this.exportDataToJson();
+      console.log('Revertido el último clic en Camión Externo Globulus');
+    }
+  }
+  
+  restarUnoBiTrenNitens(): void {
+    if (this.contadorBiTrenNitens > 0) {
+      this.contadorBiTrenNitens--;
+      this.removeLastClickDate('biTrenNitens');
+      this.exportDataToJson();
+      console.log('Revertido el último clic en BiTren Nitens');
+    }
+  }
+  
+  restarUnoCamionNitens(): void {
+    if (this.contadorCamionNitens > 0) {
+      this.contadorCamionNitens--;
+      this.removeLastClickDate('camionNitens');
+      this.exportDataToJson();
+      console.log('Revertido el último clic en Camión Externo Nitens');
+    }
+  }
+  
+  
+  updateJsonCounterValue(contador: string, valor: number): void {
+    const contadorIndex = this.contadores2.findIndex(c => c.nombre === contador);
+  
+    if (contadorIndex !== -1) {
+      this.contadores2[contadorIndex].valor = valor;
+      this.exportDataToJson(); // Actualiza el JSON con el nuevo valor del contador
+    }
+  }
+  
 
+  
   ngOnInit(): void {
     this.updateClock();
   }
