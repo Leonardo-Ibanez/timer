@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <style>
     .top-row {
       font-size: 14px;
@@ -127,8 +131,40 @@
     .right-column {
       flex: 20%;
     }
+
+    /* Estilos para el fondo oscurecido */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      display: none; /* Inicialmente oculto */
+    }
+
+    /* Estilos para el cuadro de diálogo emergente */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      z-index: 10000;
+      display: none; /* Inicialmente oculto */
+    }
+
+    /* Estilos para el botón de cierre */
+    .popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
   </style>
-</head>  
+</head>
 <body>
   <div class="container">
     <div class="top-row">
@@ -145,32 +181,46 @@
       <button class="btn btn-primary" (click)="restarUnoCamionGlobulus()">
         <i class="fa fa-minus"></i> Restar Camión Glóbulus
       </button>
-      
+
       <button class="btn btn-primary" (click)="restarUnoCamionNitens()">
         <i class="fa fa-minus"></i> Restar Camión Nitens
       </button>
       
-
-      
-
       <div class="clock">
         {{ currentDateTime }}
       </div>
     </div>
     <div class="content-row">
       <div class="left-column">
-        <div class="button-container" (click)="toggleTimer('timer1')" [ngClass]="{'running': timers['timer1'].timerRunning, 'stopped': !timers['timer1'].timerRunning}">
-          <div class="timer-button">
-            <p>Línea Mecánica Detenida</p>
-            {{ getButtonLabel(timers['timer1']) }}
-            <div class="hora detención">Hora de Detención: {{ timers['timer1'].fechainicio }}</div>
-            <div></div>
-            <div class="hora actual">Hora en que Reactiva: {{ timers['timer1'].fechafin }} </div>
-            <div></div>
-            <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer1']) }} </div>
-            <div></div>
-          </div>
-        </div>
+
+        
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
         <div class="button-container" (click)="toggleTimer('timer2')" [ngClass]="{'running': timers['timer2'].timerRunning, 'stopped': !timers['timer2'].timerRunning}">
           <div class="timer-button">
             <p>Línea Sin Madera</p>
@@ -208,13 +258,30 @@
           </div>
         </div>
       </div>
-      
-      
     </div>
-    
   </div>
 </body>
 </html>
+
+
+
+
+
+
+
+ <!--     <div class="button-container" (click)="toggleTimer('timer1')" [ngClass]="{'running': timers['timer1'].timerRunning, 'stopped': !timers['timer1'].timerRunning}">
+          <div class="timer-button">
+            <p>Línea Mecánica Detenida</p>
+            {{ getButtonLabel(timers['timer1']) }}
+            <div class="hora detención">Hora de Detención: {{ timers['timer1'].fechainicio }}</div>
+            <div></div>
+            <div class="hora actual">Hora en que Reactiva: {{ timers['timer1'].fechafin }} </div>
+            <div></div>
+            <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer1']) }} </div>
+            <div></div>
+          </div>
+        </div>  --> 
+
 
 <!--
 

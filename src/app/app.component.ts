@@ -1,4 +1,7 @@
 import { Component, NgZone, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { PopupComponent } from './popup/popup.component'; 
+
 
 @Component({
   selector: 'app-root',
@@ -8,6 +11,8 @@ import { Component, NgZone, OnDestroy, OnInit, ChangeDetectorRef } from '@angula
 
 
 export class AppComponent implements OnInit, OnDestroy {
+  
+  
   timers: { [key: string]: Timer } = {
     timer1: {
       timerRunning: false,
@@ -23,7 +28,9 @@ export class AppComponent implements OnInit, OnDestroy {
       starttimernumber: null,
       stoptimernumber: null
     }
+
   };
+  /////////////////////////////////////////////
 
   consoleLogs: string[] = [];  // DATOS PARA MOSTRAR 
   timers2: { id: number; nombre: string; timer: Timer }[] = [];
@@ -40,7 +47,13 @@ export class AppComponent implements OnInit, OnDestroy {
   contadorCamionNitens: number = 0;
   lastClickButtons: { [key: string]: number } = {};
 
-  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private ngZone: NgZone, 
+    private cdr: ChangeDetectorRef,
+
+    //private dialog: MatDialog
+  ){};
+
 
   toggleTimer(timerName: string): void {
     const timer = this.timers[timerName];
@@ -145,44 +158,47 @@ export class AppComponent implements OnInit, OnDestroy {
   aumentarContador(contador: string): void {
     const currentTime = Date.now();
     const lastClickTime = this.lastClickButtons[contador];
-
-    if (!lastClickTime || (currentTime - lastClickTime) >= 18) {
-      // Permitir incrementar el contador
-      switch (contador) {
-        case 'biTrenGlobulus':
-          this.contadorBiTrenGlobulus++;
-          console.log('Contador BiTren Globulus:', this.contadorBiTrenGlobulus);
-          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
-          break;
-        case 'camionGlobulus':
-          this.contadorCamionGlobulus++;
-          console.log('Contador Camión Externo Globulus:', this.contadorCamionGlobulus);
-          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
-          break;
-        case 'biTrenNitens':
-          this.contadorBiTrenNitens++;
-          console.log('Contador BiTren Nitens:', this.contadorBiTrenNitens);
-          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
-          break;
-        case 'camionNitens':
-          this.contadorCamionNitens++;
-          console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
-          this.logClickDate(contador, currentTime); // Guardar la fecha del clic
-          break;
-        default:
-          break;
-          
+  
+    if (!lastClickTime || (currentTime - lastClickTime) >= 120000) {
+      if (confirm('¿Desea sumar al nuevo contador?')) {
+        // Permitir incrementar el contador
+        switch (contador) {
+          case 'biTrenGlobulus':
+            this.contadorBiTrenGlobulus++;
+            console.log('Contador BiTren Globulus:', this.contadorBiTrenGlobulus);
+            this.logClickDate(contador, currentTime); // Guardar la fecha del clic
+            break;
+          case 'camionGlobulus':
+            this.contadorCamionGlobulus++;
+            console.log('Contador Camión Externo Globulus:', this.contadorCamionGlobulus);
+            this.logClickDate(contador, currentTime); // Guardar la fecha del clic
+            break;
+          case 'biTrenNitens':
+            this.contadorBiTrenNitens++;
+            console.log('Contador BiTren Nitens:', this.contadorBiTrenNitens);
+            this.logClickDate(contador, currentTime); // Guardar la fecha del clic
+            break;
+          case 'camionNitens':
+            this.contadorCamionNitens++;
+            console.log('Contador Camión Externo Nitens:', this.contadorCamionNitens);
+            this.logClickDate(contador, currentTime); // Guardar la fecha del clic
+            break;
+          default:
+            break;
+        }
+  
+        // Actualizar el último tiempo de clic
+        this.lastClickButtons[contador] = currentTime;
       }
-
-      // Actualizar el último tiempo de clic
-      this.lastClickButtons[contador] = currentTime;
     } else {
       // Mostrar el pop-up indicando que el botón está bloqueado
       const buttonName = this.getButtonName(contador);
       alert(`El botón "${buttonName}" está bloqueado. Espere 3 minutos para poder hacer clic nuevamente.`);
     }
+  
     this.exportDataToJson();
   }
+  
 
   getContadorValue(contador: string): number {
     switch (contador) {
@@ -310,13 +326,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.exportDataToJson();
   }
   
-
-  
   restarUnoBiTrenGlobulus(): void {
     if (this.contadorBiTrenGlobulus > 0) {
       this.contadorBiTrenGlobulus--;
       this.removeLastClickDate('bitrenglobulus');
-      this.exportDataToJson();
       console.log('Revertido el último clic en Bitren Globulus');
     }
   }
@@ -325,7 +338,6 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.contadorCamionGlobulus > 0) {
       this.contadorCamionGlobulus--;
       this.removeLastClickDate('camionGlobulus');
-      this.exportDataToJson();
       console.log('Revertido el último clic en Camión Externo Globulus');
     }
   }
@@ -334,7 +346,6 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.contadorBiTrenNitens > 0) {
       this.contadorBiTrenNitens--;
       this.removeLastClickDate('biTrenNitens');
-      this.exportDataToJson();
       console.log('Revertido el último clic en BiTren Nitens');
     }
   }
@@ -343,11 +354,10 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.contadorCamionNitens > 0) {
       this.contadorCamionNitens--;
       this.removeLastClickDate('camionNitens');
-      this.exportDataToJson();
+     // this.exportDataToJson();
       console.log('Revertido el último clic en Camión Externo Nitens');
     }
   }
-  
   
   updateJsonCounterValue(contador: string, valor: number): void {
     const contadorIndex = this.contadores2.findIndex(c => c.nombre === contador);
@@ -357,9 +367,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.exportDataToJson(); // Actualiza el JSON con el nuevo valor del contador
     }
   }
-  
-
-  
+    
   ngOnInit(): void {
     this.updateClock();
   }
@@ -376,6 +384,36 @@ interface Timer {
   starttimernumber: number | null;
   stoptimernumber: number | null;
 }
+
+
+
+
+/*
+  almacenarVariable(ultimoBoton: string): string | null {
+    let variable: string | null = null;
+  
+    switch (ultimoBoton) {
+      case "BTG":
+        variable = "bitreoglobulus";
+        break;
+      case "BTN":
+        variable = "bitrennitens";
+        break;
+      case "CEG":
+        variable = "camionexternoglobulus";
+        break;
+      case "CEN":
+        variable = "camionexternonitens";
+        break;
+      default:
+        console.error("Botón no reconocido");
+        break;
+    }
+  
+    return variable;
+  }
+  */
+
 
 
 

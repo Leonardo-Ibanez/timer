@@ -118,3 +118,26 @@ document.getElementById('biTrenNitensButton').addEventListener('click', function
 document.getElementById('camionNitensButton').addEventListener('click', function() {
   app.aumentarContador('camionNitens');
 });
+
+
+
+
+
+
+var myButton = document.getElementById("myButton");
+var myPopup = document.getElementById("myPopup");
+var closeBtn = document.getElementsByClassName("close")[0];
+
+myButton.addEventListener("click", function() {
+  myPopup.style.display = "block";
+});
+
+closeBtn.addEventListener("click", function() {
+  myPopup.style.display = "none";
+});
+
+window.addEventListener("click", function(event) {
+  if (event.target == myPopup) {
+    myPopup.style.display = "none";
+  }
+});

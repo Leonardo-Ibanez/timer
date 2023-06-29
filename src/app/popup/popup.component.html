@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      display: none;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      z-index: 10000;
+      display: none;
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    .popup-content {
+      text-align: center;
+    }
+
+    .popup-buttons {
+      margin-top: 20px;
+    }
+
+    .popup-buttons button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+
+  <div class="popup" id="popup">
+    <span class="popup-close" id="popupClose">&times;</span>
+    <h2>Título del Popup</h2>
+    <div class="popup-content">
+      <p>Contenido del Popup...</p>
+      <div class="popup-buttons">
+        <button class="popup-button">Botón 1</button>
+        <button class="popup-button">Botón 2</button>
+        <button class="popup-button">Botón 3</button>
+        <button class="popup-button">Botón 4</button>
+        <button class="popup-button">Botón 5</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="openPopupButton">Abrir Popup</button>
+
+  <script>
+    document.getElementById('openPopupButton').addEventListener('click', function() {
+      var overlay = document.getElementById('overlay');
+      var popup = document.getElementById('popup');
+
+      overlay.style.display = 'block';
+      popup.style.display = 'block';
+    });
+
+    document.getElementById('popupClose').addEventListener('click', function() {
+      var overlay = document.getElementById('overlay');
+      var popup = document.getElementById('popup');
+
+      overlay.style.display = 'none';
+      popup.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
