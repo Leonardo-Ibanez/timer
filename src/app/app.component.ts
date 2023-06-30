@@ -1,4 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -62,7 +63,11 @@ export class AppComponent implements OnInit, OnDestroy {
   //contadorCamionNitens: number = 0;
   lastClickButtons: { [key: string]: number } = {};
 
-  constructor(private ngZone: NgZone, private cdr: ChangeDetectorRef) { }
+  constructor(private ngZone: NgZone, 
+    private cdr: ChangeDetectorRef
+    //,    private dialog: MatDialog
+    ) ////////////////borrando esto se arregla lo de la pantalla en blanco
+    { }    
 
   toggleTimer(timerName: string): void {
     const timer = this.timers[timerName];
