@@ -1,3 +1,20 @@
+.button-container:not(.running):not(.stopped) .timer-button {
+  background-color: #4e77ff;
+  color: #ffffff;
+}
+
+.button-container:not(.running):not(.stopped) .timer-button span {
+  font-size: 18px;
+}
+
+.button-container:not(.running):not(.stopped) .timer-button div {
+  font-size: 16px;
+  margin: 5px 0;
+  text-align: left;
+  /* Alineación a la izquierda */
+}
+
+
 .top-row {
   font-size: 14px;
 }
@@ -12,7 +29,6 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #6c93e6;
 }
 
 .top-row {
@@ -20,7 +36,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #33691e;
+  background-color: #33691E;
   padding: 10px;
   color: white;
 }
@@ -31,23 +47,37 @@
 }
 
 .left-column,
-.middle-column,
+.middle-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
 .right-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #c8e6c9;
   padding: 10px;
+  margin-top: 150px;
+  /* Ajusta el valor del margen superior según tus necesidades */
+}
+
+.left-column,
+.middle-column,
+.right-column,
+.container {
+  background-color: #9FDAD1;
 }
 
 .button-container {
-  margin: 0;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: auto;
+  height: 50%;
   cursor: pointer;
 }
 
@@ -55,24 +85,31 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start; /* Alineación a la izquierda */
+  align-items: center;
   flex-grow: 1;
-  padding: 0;
+  padding: 10px;
   font-size: 16px;
   font-weight: bold;
-  font-size: x-large;
+  font-size: large;
+  width: 100%;
+  height: 80%;
+  margin: 0px;
   box-sizing: border-box;
   text-align: center;
 }
 
 .button-inactive {
   background-color: #ccc;
+  /* Cambia este valor al color para el estado inactivo */
   color: #000;
+  /* Cambia este valor al color del texto para el estado inactivo */
 }
 
 .button-active {
   background-color: #ff0000;
+  /* Cambia este valor al color para el estado activo */
   color: #fff;
+  /* Cambia este valor al color del texto para el estado activo */
 }
 
 .button-large {
@@ -84,18 +121,19 @@
 
 .counter {
   font-size: 16px;
+  /* Aumenta el tamaño del número */
   margin-top: 10px;
   font-weight: normal;
   font-size: large;
 }
 
 .button-container.running {
-  background-color: rgb(255, 67, 67);
+  background-color: #84bd00;
   color: white;
 }
 
 .button-container.stopped {
-  background-color: green;
+  background-color: #FF6F40;
   color: white;
 }
 
@@ -103,46 +141,29 @@
   margin-bottom: 15px;
 }
 
-.right-column .timer-button,
+.right-column .button-container .timer-button {
+  background-color: #006784;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-column .timer-button {
+  width: 100%;
+  height: 120%;
+}
+
 .middle-column .timer-button {
   width: 100%;
   height: 85%;
+
 }
 
-/* Botones con tamaño fijo */
-.button-container .timer-button {
-  width: 100px;
-  height: 50px;
+.left-column {
+  flex: 60%;
 }
 
-/* Otros estilos */
-.button-container:not(.running):not(.stopped) {
-  color: #000;
-}
-
-.button-container:not(.running):not(.stopped) .timer-button {
-  background-color: #4e77ff;
-  color: #ffffff;
-}
-
-.button-container:not(.running):not(.stopped) .timer-button span {
-  font-size: 18px;
-}
-
-.button-container:not(.running):not(.stopped) .timer-button div {
-  font-size: 16px;
-  margin: 5px 0;
-  text-align: left; /* Alineación a la izquierda */
-}
-
-.button-container:not(.running):not(.stopped) .timer-button div.hora.detención,
-.button-container:not(.running):not(.stopped) .timer-button div.hora.inicio,
-.button-container:not(.running):not(.stopped) .timer-button div.tiempo.detenido {
-  font-weight: bold;
-}
-
-.button-container:not(.running):not(.stopped) .timer-button div.hora.actual,
-.button-container:not(.running):not(.stopped) .timer-button div.hora.fin,
-.button-container:not(.running):not(.stopped) .timer-button div.tiempo.total {
-  font-weight: normal;
+.middle-column,
+.right-column {
+  flex: 20%;
 }
