@@ -1,22 +1,29 @@
+html, body {
+  margin: 0;
+}
+
+
 .button-container:not(.running):not(.stopped) .timer-button {
-  background-color: #4e77ff;
   color: #ffffff;
-}
-
-.button-container:not(.running):not(.stopped) .timer-button span {
-  font-size: 18px;
-}
-
-.button-container:not(.running):not(.stopped) .timer-button div {
-  font-size: 16px;
-  margin: 5px 0;
+  border-radius: 10px;
+  width: 80px; /* Cambia el valor del ancho según tus necesidades */
+  height: 200px; /* Cambia el valor del alto según tus necesidades */
+  font-size: 30px; 
+  border-radius: 10px; 
+  font-size: 25px;
+  margin: 10px 0;
   text-align: left;
+  border-radius: 10px; 
   /* Alineación a la izquierda */
 }
 
-
+.btn-primary {
+  border-radius: 5px; /* Cambia este valor según el radio de esquina deseado */
+  
+}
 .top-row {
-  font-size: 14px;
+  font-size: 30px;
+  
 }
 
 .logo-container img {
@@ -54,24 +61,16 @@
   padding: 10px;
 }
 
-.right-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  margin-top: 150px;
-  /* Ajusta el valor del margen superior según tus necesidades */
-}
+
 
 .left-column,
 .middle-column,
-.right-column,
 .container {
   background-color: #9FDAD1;
 }
 
 .button-container {
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -79,6 +78,12 @@
   width: 100%;
   height: 50%;
   cursor: pointer;
+  border-radius: 10px; 
+}
+
+.button-container.running {
+  background-color: #84bd00;
+  color: white;
 }
 
 .timer-button {
@@ -88,9 +93,9 @@
   align-items: center;
   flex-grow: 1;
   padding: 10px;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
-  font-size: large;
+  font-size: xx-large;
   width: 100%;
   height: 80%;
   margin: 0px;
@@ -112,58 +117,37 @@
   /* Cambia este valor al color del texto para el estado activo */
 }
 
-.button-large {
-  width: 150px;
-  height: 100px;
-  font-size: 10px;
-  font-weight: bold;
+
+.middle-column{
+  margin-bottom: 1px; /* Cambia este valor al margen deseado */
 }
 
-.counter {
-  font-size: 16px;
-  /* Aumenta el tamaño del número */
-  margin-top: 10px;
-  font-weight: normal;
-  font-size: large;
-}
-
-.button-container.running {
-  background-color: #84bd00;
-  color: white;
-}
 
 .button-container.stopped {
   background-color: #FF6F40;
   color: white;
 }
 
-.right-column .button-container {
-  margin-bottom: 15px;
-}
-
-.right-column .button-container .timer-button {
-  background-color: #006784;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.right-column .timer-button {
-  width: 100%;
-  height: 120%;
-}
-
 .middle-column .timer-button {
   width: 100%;
   height: 85%;
-
 }
 
 .left-column {
   flex: 60%;
 }
 
-.middle-column,
-.right-column {
-  flex: 20%;
+.middle-column {
+  flex: 25%;
+}
+.middle-column .button-container:nth-child(1) .timer-button {
+  background-color: #4e77ff; /* Cambia este color al que desees para el primer botón de bitren */
+}
+
+.middle-column .button-container:nth-child(2) .timer-button {
+  background-color: #4e77ff; /* Cambia este color al que desees para el segundo botón de bitren */
+}
+
+.middle-column .button-container:nth-child(3) .timer-button {
+  background-color: #006784; /* Cambia este color al que desees para el botón de camión externo */
 }

@@ -35,97 +35,78 @@
     <div class="content-row">
       <div class="left-column">
 
-          <div class="button-container button-left" (click)="toggleTimer('timer1')"
-            [ngClass]="{'running': timers['timer1'].timerRunning, 'stopped': !timers['timer1'].timerRunning}">
-            <div class="timer-button">
-              <p>Línea Mecánica Detenida</p>
-              {{ getButtonLabel(timers['timer1']) }}
-              <div class="hora detención">Hora de Detención: {{ timers['timer1'].fechainicio }}</div>
-              <div></div>
-              <div class="hora actual">Hora en que Reactiva: {{ timers['timer1'].fechafin }} </div>
-              <div></div>
-              <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer1']) }} </div>
-              <div></div>
-            </div>
+        <div class="button-container" (click)="toggleTimer('timer1')"
+          [ngClass]="{'running': timers['timer1'].timerRunning, 'stopped': !timers['timer1'].timerRunning}">
+          <div class="timer-button">
+            <div>Línea Mecánica Detenida</div>
+            <!--{{ getButtonLabel(timers['timer1']) }} -->
+            <div class="hora detención">Detención: {{ timers['timer1'].fechainicio }} Reactivación: {{
+              timers['timer1'].fechafin }}</div>
+            <div class="hora actual"> </div>
+            <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer1']) }} </div>
           </div>
+        </div>
 
-          <div class="button-container button-left" (click)="toggleTimer('timer2')"
-            [ngClass]="{'running': timers['timer2'].timerRunning, 'stopped': !timers['timer2'].timerRunning}">
-            <div class="timer-button">
-              <p>Línea Sin Madera</p>
-              {{ getButtonLabel(timers['timer2']) }}
-              <div class="hora inicio">Hora de Inicio: {{ timers['timer2'].fechainicio }} </div>
-              <div></div>
-              <div class="hora fin">Hora de Fin: {{ timers['timer2'].fechafin }} </div>
-              <div></div>
-              <div>Tiempo Total sin Madera: {{ getElapsedTimeDifference(timers['timer2']) }} </div>
-              <div></div>
-            </div>
+        <div class="button-container" (click)="toggleTimer('timer2')"
+          [ngClass]="{'running': timers['timer2'].timerRunning, 'stopped': !timers['timer2'].timerRunning}">
+          <div class="timer-button">
+            <div>Línea Sin Madera</div>
+            <!--  {{ getButtonLabel(timers['timer2']) }} -->
+            <div class="hora inicio">Detención: {{ timers['timer2'].fechainicio }} Reactivación: {{
+              timers['timer2'].fechafin }} </div>
+            <div class="hora fin"> </div>
+            <div>Tiempo Total sin Madera: {{ getElapsedTimeDifference(timers['timer2']) }} </div>
           </div>
-       
+        </div>
+
         <div class="button-container" (click)="toggleTimer('timer3')"
-        [ngClass]="{'running': timers['timer3'].timerRunning, 'stopped': !timers['timer3'].timerRunning}">
-        <div class="timer-button">
-          <p>Limpieza Bunker</p>
-          {{ getButtonLabel(timers['timer3']) }}
-          <div class="hora detención">Hora de Detención: {{ timers['timer3'].fechainicio }}</div>
-          <div></div>
-          <div class="hora actual">Hora en que Reactiva: {{ timers['timer3'].fechafin }} </div>
-          <div></div>
-          <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer3']) }} </div>
-          <div>
+          [ngClass]="{'running': timers['timer3'].timerRunning, 'stopped': !timers['timer3'].timerRunning}">
+          <div class="timer-button">
+            <div>Limpieza Bunker</div>
+            <!--   {{ getButtonLabel(timers['timer3']) }}-->
+            <div class="hora detención">Detención: {{ timers['timer3'].fechainicio }} Reactivación: {{
+              timers['timer3'].fechafin }} </div>
+            <div class="hora actual"> </div>
+            <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer3']) }} </div>
+          </div>
+        </div>
 
+        <div class="button-container" (click)="toggleTimer('timer4')"
+          [ngClass]="{'running': timers['timer4'].timerRunning, 'stopped': !timers['timer4'].timerRunning}">
+          <div class="timer-button">
+            <div>Limpieza Zona Alimentación</div>
+            <!-- {{ getButtonLabel(timers['timer4']) }}-->
+            <div class="hora detención">Detención: {{ timers['timer4'].fechainicio }}Reactivación: {{
+              timers['timer4'].fechafin }}</div>
+            <div class="hora actual"> </div>
+            <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer4']) }} </div>
+          </div>
+        </div>
+
+        <div class="button-container" (click)="toggleTimer('timer5')"
+          [ngClass]="{'running': timers['timer5'].timerRunning, 'stopped': !timers['timer5'].timerRunning}">
+          <div class="timer-button">
+            <div>Mantención</div>
+            <!--  {{ getButtonLabel(timers['timer5']) }} -->
+            <div class="hora detención">Detención: {{ timers['timer5'].fechainicio }} Reactivación: {{
+              timers['timer5'].fechafin }}</div>
+            <div class="hora actual"> </div>
+            <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer5']) }} </div>
           </div>
         </div>
       </div>
-
-      <div class="button-container" (click)="toggleTimer('timer4')"
-        [ngClass]="{'running': timers['timer4'].timerRunning, 'stopped': !timers['timer4'].timerRunning}">
-        <div class="timer-button">
-          <p>Limpieza Zona Alimentación</p>
-          {{ getButtonLabel(timers['timer4']) }}
-          <div class="hora detención">Hora de Detención: {{ timers['timer4'].fechainicio }}</div>
-          <div></div>
-          <div class="hora actual">Hora en que Reactiva: {{ timers['timer4'].fechafin }} </div>
-          <div></div>
-          <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer4']) }} </div>
-          <div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="button-container" (click)="toggleTimer('timer5')"
-        [ngClass]="{'running': timers['timer5'].timerRunning, 'stopped': !timers['timer5'].timerRunning}">
-        <div class="timer-button">
-          <p>Mantención</p>
-          {{ getButtonLabel(timers['timer5']) }}
-          <div class="hora detención">Hora de Detención: {{ timers['timer5'].fechainicio }}</div>
-          <div></div>
-          <div class="hora actual">Hora en que Reactiva: {{ timers['timer5'].fechafin }} </div>
-          <div></div>
-          <div>Tiempo Detenido:{{ getElapsedTimeDifference(timers['timer5']) }} </div>
-          <div></div>
-        </div>
-      </div>
-
-      </div>
-
-     
 
       <div class="middle-column">
         <div class="button-container">
-          <div class="timer-button button-inactive" (click)="aumentarContador('biTrenGlobulus')">
+          <div class="timer-button " (click)="aumentarContador('biTrenGlobulus')">
             BiTren Glóbulus <span>{{ contadorBiTrenGlobulus }}</span>
           </div>
         </div>
         <div class="button-container">
-          <div class="timer-button button-inactive" (click)="aumentarContador('biTrenNitens')">
+          <div class="timer-button " (click)="aumentarContador('biTrenNitens')">
             BiTren Nitens <span>{{ contadorBiTrenNitens }}</span>
           </div>
         </div>
-      </div>
-      <div class="right-column">
         <div class="button-container">
           <div class="timer-button button-inactive" (click)="aumentarContador('camionExterno')">
             Camión Externo <span>{{ contadorCamionExterno }}</span>

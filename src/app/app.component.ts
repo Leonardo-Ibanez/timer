@@ -69,56 +69,57 @@ export class AppComponent implements OnInit, OnDestroy {
     ) ////////////////borrando esto se arregla lo de la pantalla en blanco
     { }    
 
-  toggleTimer(timerName: string): void {
-    const timer = this.timers[timerName];
-
-    if (!timer.timerRunning) {
-      const currentDate = new Date();
-      timer.fechainicio = currentDate.toLocaleString();
-      timer.starttimernumber = this.convertFechaToNumber(currentDate);
-      timer.fechafin = ''; // Reiniciar el valor de "hora en que reactiva"
-      timer.stoptimernumber = null;
-      timer.timerRunning = true;
-
-      if (!this.showClock) {
-        this.showClock = true;
-        this.updateClock();
+    toggleTimer(timerName: string): void {
+      const timer = this.timers[timerName];
+    
+      if (!timer.timerRunning) {
+        const currentDate = new Date();
+        timer.fechainicio = currentDate.toLocaleTimeString();
+        timer.starttimernumber = this.convertFechaToNumber(currentDate);
+        timer.fechafin = ''; // Reiniciar el valor de "hora en que reactiva"
+        timer.stoptimernumber = null;
+        timer.timerRunning = true;
+    
+        if (!this.showClock) {
+          this.showClock = true;
+          this.updateClock();
+        }
+    
+        this.intervalIds[timerName] = window.requestAnimationFrame(() => {
+          this.updateClock();
+        });
+    
+        this.cdr.detectChanges();
+    
+        console.log('Inicio Timer', timerName, timer.fechainicio);
+      } else {
+        this.stopTimer(timerName);
       }
-
-      this.intervalIds[timerName] = window.requestAnimationFrame(() => {
-        this.updateClock();
-      });
-
-      this.cdr.detectChanges();
-
-      console.log('Inicio Timer', timerName, timer.fechainicio);
-    } else {
-      this.stopTimer(timerName);
     }
-  }
-
-  stopTimer(timerName: string): void {
-    const timer = this.timers[timerName];
-
-    if (timer.timerRunning) {
-      timer.timerRunning = false;
-      const currentDate = new Date();
-      timer.fechafin = currentDate.toLocaleString();
-      timer.stoptimernumber = this.convertFechaToNumber(currentDate);
-      window.cancelAnimationFrame(this.intervalIds[timerName]);
-      this.currentDateTime = '';
-
-      console.log('Fin Timer', timerName, timer.fechafin);
-
-      const elapsedTime = this.getElapsedTimeDifference(timer);
-      console.log('Tiempo transcurrido:', elapsedTime);
-
-      // Agregar el timer a timers2
-      this.timers2Counter++;
-      this.timers2.push({ id: this.timers2Counter, nombre: timerName, timer: { ...timer } });
-      this.exportDataToJson();
+    
+    stopTimer(timerName: string): void {
+      const timer = this.timers[timerName];
+    
+      if (timer.timerRunning) {
+        timer.timerRunning = false;
+        const currentDate = new Date();
+        timer.fechafin = currentDate.toLocaleTimeString();
+        timer.stoptimernumber = this.convertFechaToNumber(currentDate);
+        window.cancelAnimationFrame(this.intervalIds[timerName]);
+        this.currentDateTime = '';
+    
+        console.log('Fin Timer', timerName, timer.fechafin);
+    
+        const elapsedTime = this.getElapsedTimeDifference(timer);
+        console.log('Tiempo transcurrido:', elapsedTime);
+    
+        // Agregar el timer a timers2
+        this.timers2Counter++;
+        this.timers2.push({ id: this.timers2Counter, nombre: timerName, timer: { ...timer } });
+        this.exportDataToJson();
+      }
     }
-  }
+    
 
   getElapsedTimeDifference(timer: Timer): string {
     const start = timer.starttimernumber ? new Date(timer.starttimernumber) : null;
@@ -371,8 +372,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.exportDataToJson();
   }
 
-
-
   restarUnoBiTrenGlobulus(): void {
     if (this.contadorBiTrenGlobulus > 0) {
       this.contadorBiTrenGlobulus--;
@@ -381,8 +380,6 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log('Revertido el último clic en Bitren Globulus');
     }
   }
-
-
 
   restarUnoBiTrenNitens(): void {
     if (this.contadorBiTrenNitens > 0) {
@@ -430,8 +427,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   ngOnInit(): void {
     this.updateClock();
   }
@@ -449,7 +444,58 @@ interface Timer {
   stoptimernumber: number | null;
 }
 
+/* VERSION DE TOOTLE QUE MUESTRA FECHA DE DETENCIÓN + HORA
+  toggleTimer(timerName: string): void {
+    const timer = this.timers[timerName];
 
+    if (!timer.timerRunning) {
+      const currentDate = new Date();
+      timer.fechainicio = currentDate.toLocaleString();
+      timer.starttimernumber = this.convertFechaToNumber(currentDate);
+      timer.fechafin = ''; // Reiniciar el valor de "hora en que reactiva"
+      timer.stoptimernumber = null;
+      timer.timerRunning = true;
+
+      if (!this.showClock) {
+        this.showClock = true;
+        this.updateClock();
+      }
+
+      this.intervalIds[timerName] = window.requestAnimationFrame(() => {
+        this.updateClock();
+      });
+
+      this.cdr.detectChanges();
+
+      console.log('Inicio Timer', timerName, timer.fechainicio);
+    } else {
+      this.stopTimer(timerName);
+    }
+  }
+
+  stopTimer(timerName: string): void {
+    const timer = this.timers[timerName];
+
+    if (timer.timerRunning) {
+      timer.timerRunning = false;
+      const currentDate = new Date();
+      timer.fechafin = currentDate.toLocaleString();
+      timer.stoptimernumber = this.convertFechaToNumber(currentDate);
+      window.cancelAnimationFrame(this.intervalIds[timerName]);
+      this.currentDateTime = '';
+
+      console.log('Fin Timer', timerName, timer.fechafin);
+
+      const elapsedTime = this.getElapsedTimeDifference(timer);
+      console.log('Tiempo transcurrido:', elapsedTime);
+
+      // Agregar el timer a timers2
+      this.timers2Counter++;
+      this.timers2.push({ id: this.timers2Counter, nombre: timerName, timer: { ...timer } });
+      this.exportDataToJson();
+    }
+  }
+*/
 
 /*
 
