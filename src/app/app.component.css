@@ -1,30 +1,30 @@
 html, body {
   margin: 0;
 }
-
+body {
+  -youbkit-touch-callout: none; /*iOS Safari*/
+  -youbkit-user-select: none;   /* Chrome 6.0+, Safari 3.1+, Edge y Opera 15+ */
+  -moz-user-select: none;    /*Firefox*/
+  -ms-user-select: none;        /* IE 10+ y Edge */
+  user-select: none;            /* Versión sin prefijo,
+                              actualmente compatible con Chrome y Opera */
+}
+.no-select {
+  user-select: none;
+}
 
 .button-container:not(.running):not(.stopped) .timer-button {
   color: #ffffff;
   border-radius: 10px;
   width: 80px; /* Cambia el valor del ancho según tus necesidades */
-  height: 200px; /* Cambia el valor del alto según tus necesidades */
+  height: 100px; /* Cambia el valor del alto según tus necesidades */
   font-size: 30px; 
-  border-radius: 10px; 
-  font-size: 25px;
   margin: 10px 0;
   text-align: left;
-  border-radius: 10px; 
   /* Alineación a la izquierda */
 }
 
-.btn-primary {
-  border-radius: 5px; /* Cambia este valor según el radio de esquina deseado */
-  
-}
-.top-row {
-  font-size: 30px;
-  
-}
+
 
 .logo-container img {
   width: 100px;
@@ -46,6 +46,15 @@ html, body {
   background-color: #33691E;
   padding: 10px;
   color: white;
+  font-size: 20px;
+}
+
+.btn-primary { /* BOTONES DEL BANNER*/
+  border-radius: 20px; /* Cambia este valor según el radio de esquina deseado */
+  padding: 5px 8px; /* Cambia los valores de padding según tus necesidades */
+  font-size: 14px; /* Cambia el tamaño de fuente según tus necesidades */
+
+
 }
 
 .content-row {
@@ -57,8 +66,8 @@ html, body {
 .middle-column {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 10px;
+  max-height: 100%;
 }
 
 
@@ -134,7 +143,7 @@ html, body {
 }
 
 .left-column {
-  flex: 60%;
+  flex: 33%;
 }
 
 .middle-column {
@@ -151,3 +160,4 @@ html, body {
 .middle-column .button-container:nth-child(3) .timer-button {
   background-color: #006784; /* Cambia este color al que desees para el botón de camión externo */
 }
+
