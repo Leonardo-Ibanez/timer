@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+ 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -209,3 +211,13 @@
         </div>
 -->
 
+<script>
+  // Detectar si es un tablet y ejecutar el código para ocultar la barra de búsqueda
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    // Ocultar barra de búsqueda en tablets
+    document.documentElement.requestFullscreen(); // Entrar en modo pantalla completa
+    setTimeout(() => {
+      window.scrollTo(0, 1); // Desplazar la página para ocultar la barra de búsqueda
+    }, 1000); // Esperar 1 segundo antes de desplazar la página (ajusta este valor según tus necesidades)
+  }
+</script>

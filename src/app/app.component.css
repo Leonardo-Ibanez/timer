@@ -13,16 +13,14 @@ body {
   user-select: none;
 }
 
-.button-container:not(.running):not(.stopped) .timer-button {
+.button-container:not(.running):not(.stopped) .timer-button {  
   color: #ffffff;
   border-radius: 10px;
-  width: 80px; /* Cambia el valor del ancho según tus necesidades */
-  height: 100px; /* Cambia el valor del alto según tus necesidades */
+  height: 120px; /* Cambia el valor del alto según tus necesidades */
   font-size: 30px; 
-  margin: 10px 0;
   text-align: left;
   /* Alineación a la izquierda */
-}
+} /*  BOTONES CONTADORES   */
 
 
 
@@ -46,14 +44,14 @@ body {
   background-color: #33691E;
   padding: 10px;
   color: white;
-  font-size: 20px;
+  font-size: 20px; /* RELOJ */
 }
 
 .btn-primary { /* BOTONES DEL BANNER*/
   border-radius: 20px; /* Cambia este valor según el radio de esquina deseado */
   padding: 5px 8px; /* Cambia los valores de padding según tus necesidades */
   font-size: 14px; /* Cambia el tamaño de fuente según tus necesidades */
-
+/* BOTONES RESTAR */
 
 }
 
@@ -70,16 +68,14 @@ body {
   max-height: 100%;
 }
 
-
-
 .left-column,
 .middle-column,
 .container {
   background-color: #9FDAD1;
 }
 
-.button-container {
-  margin-bottom: 8px;
+.button-container {  /* BOTONES TIMER */
+  margin-bottom: 6px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -102,7 +98,7 @@ body {
   align-items: center;
   flex-grow: 1;
   padding: 10px;
-  font-size: 12px;
+  font-size: 30px;
   font-weight: bold;
   font-size: xx-large;
   width: 100%;
