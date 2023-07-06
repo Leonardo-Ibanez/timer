@@ -259,8 +259,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.contadores2.push({ id: this.contadores2Counter, nombre: contador, valor: this.getContadorValue(contador), fecha_hora: clickDate });
   }
 
+  //////////////////////////////////////////
+  isAnyCounterDecreased(): boolean {
+    return (
+      this.contadorBiTrenGlobulus < 0 ||
+      this.contadorBiTrenNitens < 0 ||
+      this.contadorCamionExterno < 0
+    );
+  }
   aumentarContador(contador: string): void {
-    if (this.isAnyTimerRunning()) {
+    if (this.isAnyTimerRunning() || this.isAnyCounterDecreased()){
       alert('Debes reactivar la línea para poder aumentar el contador');
       return;
     }
@@ -470,11 +478,16 @@ export class AppComponent implements OnInit, OnDestroy {
   
     if (this.contadorBiTrenGlobulus > 0) {
       this.contadorBiTrenGlobulus--;
-      this.removeLastClickDate('bitrenglobulus');
+      this.removeLastClickDate('biTrenGlobulus'); // Corregir el nombre del contador aquí
       this.exportDataToJson();
-      console.log('Revertido el último clic en Bitren Globulus');
+      console.log('Revertido el último clic en BiTren Globulus');
     }
+  
+    const currentTime = Date.now();
+    this.lastClickButtons['biTrenGlobulus'] = currentTime - 120000; // Corregir el nombre del contador aquí
   }
+  
+  
   
   restarUnoBiTrenNitens(): void {
     if (this.isAnyTimerRunning()) {
@@ -488,6 +501,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.exportDataToJson();
       console.log('Revertido el último clic en BiTren Nitens');
     }
+  
+    const currentTime = Date.now();
+    this.lastClickButtons['biTrenNitens'] = currentTime - 120000;
   }
   
   restarUnoCamionExterno(): void {
@@ -502,7 +518,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.exportDataToJson();
       console.log('Revertido el último clic en Camión Externo');
     }
+  
+    const currentTime = Date.now();
+    this.lastClickButtons['camionExterno'] = currentTime - 120000;
   }
+  
   confirmarRestar(contador: string): void {
     const confirmacion = confirm(`¿Está seguro que desea restar 1 a ${contador}?`);
     if (confirmacion) {
