@@ -1,0 +1,8 @@
+{
+  "name": "ContadorMapa",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
